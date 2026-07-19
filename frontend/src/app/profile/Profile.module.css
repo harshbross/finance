@@ -1,0 +1,144 @@
+.profileLayout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 30px;
+  align-items: start;
+}
+
+.profileFormCard, .ordersCard {
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.avatarWrap {
+  width: 54px;
+  height: 54px;
+  border-radius: var(--border-radius-sm);
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid var(--accent-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px var(--accent-primary-glow);
+}
+
+.avatarIcon {
+  color: var(--accent-primary);
+}
+
+.alert {
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.85rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 16px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.ordersList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.orderItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid var(--border-glass);
+}
+
+.orderInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.orderId {
+  font-weight: 600;
+  color: #fff;
+}
+
+.orderDate {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.orderMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.orderPrice {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--accent-secondary);
+}
+
+.viewDetailsBtn {
+  background: var(--bg-glass-card);
+  border: 1px solid var(--border-glass);
+  padding: 6px;
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.viewDetailsBtn:hover {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: white;
+}
+
+.emptyOrders {
+  padding: 40px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.emptyOrdersIcon {
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+@media (max-width: 900px) {
+  .profileLayout {
+    grid-template-columns: 1fr;
+  }
+}

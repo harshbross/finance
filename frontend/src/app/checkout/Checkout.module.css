@@ -1,0 +1,176 @@
+.backBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-bottom: 24px;
+  font-size: 0.95rem;
+  padding: 6px 12px;
+  border-radius: var(--border-radius-sm);
+  transition: var(--transition-smooth);
+}
+
+.backBtn:hover {
+  color: var(--text-primary);
+  background: var(--bg-glass-card);
+}
+
+.checkoutLayout {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+.formColumn {
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.summaryColumn {
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.alert {
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.85rem;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+}
+
+.sectionIcon {
+  color: var(--accent-primary);
+}
+
+.mockAlert {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning);
+  border: 1px dashed rgba(245, 158, 11, 0.3);
+  padding: 12px;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.85rem;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+.cardRow {
+  display: flex;
+  gap: 16px;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border-glass);
+  margin: 24px 0;
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.itemSummary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.itemMeta {
+  display: flex;
+  flex-direction: column;
+}
+
+.itemName {
+  color: #fff;
+  font-weight: 500;
+}
+
+.itemQuantity {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.itemTotal {
+  color: var(--text-secondary);
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  margin-bottom: 12px;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.totalValue {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--accent-secondary);
+}
+
+.secureBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-top: 24px;
+}
+
+.secureBadge svg {
+  color: var(--success);
+}
+
+.emptyState {
+  padding: 60px 40px;
+  text-align: center;
+  max-width: 500px;
+  margin: 40px auto;
+}
+
+@media (max-width: 900px) {
+  .checkoutLayout {
+    grid-template-columns: 1fr;
+  }
+}

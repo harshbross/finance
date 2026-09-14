@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Heart, ShoppingCart, Trash2, ArrowRight } from 'lucide-react';
 import { useWishlist } from '../../context/WishlistContext';
 import { useCart } from '../../context/CartContext';
+import { formatPrice } from '../../utils/format';
 import styles from './Wishlist.module.css';
 
 export default function WishlistPage() {
@@ -64,7 +65,7 @@ export default function WishlistPage() {
                 </Link>
 
                 <div className={styles.priceRow}>
-                  <span className={styles.price}>${product.price.toFixed(2)}</span>
+                  <span className={styles.price}>{formatPrice(product.price)}</span>
                   {product.stock > 0 ? (
                     <span className="badge badge-success">In Stock</span>
                   ) : (

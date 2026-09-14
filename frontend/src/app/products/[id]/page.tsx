@@ -21,6 +21,7 @@ import { useWishlist } from '../../../context/WishlistContext';
 import { useToast } from '../../../context/ToastContext';
 import { Skeleton } from '../../../components/Skeleton';
 import { MOCK_PRODUCTS } from '../../../data/mockProducts';
+import { formatPrice } from '../../../utils/format';
 import styles from './ProductDetail.module.css';
 
 interface Category {
@@ -302,7 +303,7 @@ export default function ProductDetailPage() {
           </div>
 
           <div className={styles.priceArea}>
-            <span className={styles.price}>${product.price.toFixed(2)}</span>
+            <span className={styles.price}>{formatPrice(product.price)}</span>
             {product.stock > 0 ? (
               <span className="badge badge-success">In Stock ({product.stock} left)</span>
             ) : (
@@ -555,7 +556,7 @@ export default function ProductDetailPage() {
                 </div>
                 <div className={styles.relatedInfo}>
                   <h4 className={styles.relatedName}>{rel.name}</h4>
-                  <span className={styles.relatedPrice}>${rel.price.toFixed(2)}</span>
+                  <span className={styles.relatedPrice}>{formatPrice(rel.price)}</span>
                 </div>
               </Link>
             ))}

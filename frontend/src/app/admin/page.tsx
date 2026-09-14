@@ -7,6 +7,7 @@ import {
   ShieldAlert, LayoutDashboard, Plus, Trash2, Edit, Save, 
   Users, ShoppingBag, FolderTree, Receipt, TrendingUp, X, Upload 
 } from 'lucide-react';
+import { formatPrice } from '../../utils/format';
 import styles from './Admin.module.css';
 
 interface StatCounts {
@@ -512,7 +513,7 @@ export default function AdminDashboardPage() {
                   <div className="glass-card p-6 flex justify-between items-center">
                     <div>
                       <p className={styles.cardLabel}>Total Revenue</p>
-                      <h3 className={styles.cardValue}>${stats.totalRevenue.toFixed(2)}</h3>
+                      <h3 className={styles.cardValue}>{formatPrice(stats.totalRevenue)}</h3>
                     </div>
                     <div className={styles.statIconWrap} style={{ borderColor: 'var(--accent-secondary)' }}>
                       <TrendingUp className={styles.statIcon} style={{ color: 'var(--accent-secondary)' }} />
@@ -571,7 +572,7 @@ export default function AdminDashboardPage() {
                               <span className={styles.tblEmail}>{ord.user.email}</span>
                             </td>
                             <td style={{ fontFamily: 'var(--font-display)', fontWeight: 700 }}>
-                              ${ord.totalAmount.toFixed(2)}
+                              {formatPrice(ord.totalAmount)}
                             </td>
                             <td>
                               <span className={`badge ${
@@ -762,7 +763,7 @@ export default function AdminDashboardPage() {
                           <span className="badge badge-secondary">{prod.category?.name}</span>
                         </td>
                         <td style={{ fontFamily: 'var(--font-display)', fontWeight: 700 }}>
-                          ${prod.price.toFixed(2)}
+                          {formatPrice(prod.price)}
                         </td>
                         <td>
                           <span className={`badge ${prod.stock > 0 ? 'badge-success' : 'badge-error'}`}>
@@ -926,7 +927,7 @@ export default function AdminDashboardPage() {
                           </span>
                         </td>
                         <td style={{ fontFamily: 'var(--font-display)', fontWeight: 700 }}>
-                          ${ord.totalAmount.toFixed(2)}
+                          {formatPrice(ord.totalAmount)}
                         </td>
                         <td>
                           <select

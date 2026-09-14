@@ -7,6 +7,7 @@ import { useWishlist } from '../../context/WishlistContext';
 import { ShoppingCart, Trash2, ArrowRight, ShoppingBag, Plus, Minus, Heart } from 'lucide-react';
 import Link from 'next/link';
 import { CartItemSkeleton } from '../../components/Skeleton';
+import { formatPrice } from '../../utils/format';
 import styles from './Cart.module.css';
 
 export default function CartPage() {
@@ -53,7 +54,7 @@ export default function CartPage() {
                   <Link href={`/products/${item.product.id}`} className={styles.itemName}>
                     {item.product.name}
                   </Link>
-                  <span className={styles.itemCategory}>Price: ${item.product.price.toFixed(2)}</span>
+                  <span className={styles.itemCategory}>Price: {formatPrice(item.product.price)}</span>
                 </div>
 
                 {/* Quantity Controls */}
@@ -78,7 +79,7 @@ export default function CartPage() {
                 {/* Item Total & Delete */}
                 <div className={styles.itemTotalArea}>
                   <span className={styles.itemTotal}>
-                    ${(item.product.price * item.quantity).toFixed(2)}
+                    {formatPrice(item.product.price * item.quantity)}
                   </span>
                   <button
                     onClick={() => handleSaveForLater(item)}
@@ -106,7 +107,7 @@ export default function CartPage() {
             
             <div className={styles.summaryRow}>
               <span>Items ({itemCount})</span>
-              <span>${subtotal.toFixed(2)}</span>
+              <span>{formatPrice(subtotal)}</span>
             </div>
             
             <div className={styles.summaryRow}>
@@ -118,7 +119,7 @@ export default function CartPage() {
             
             <div className={styles.totalRow}>
               <span>Total Amount</span>
-              <span className={styles.totalValue}>${subtotal.toFixed(2)}</span>
+              <span className={styles.totalValue}>{formatPrice(subtotal)}</span>
             </div>
 
             <Link href="/checkout" className="btn-primary w-full" style={{ justifyContent: 'center', marginTop: '20px' }}>

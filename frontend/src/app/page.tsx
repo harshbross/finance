@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import QuickViewModal, { QuickViewProduct } from '../components/QuickViewModal';
 import { MOCK_PRODUCTS, MOCK_CATEGORIES } from '../data/mockProducts';
+import { formatPrice } from '../utils/format';
 import styles from './Home.module.css';
 
 interface Category {
@@ -296,7 +297,7 @@ export default function HomePage() {
                     <p className={styles.productDesc}>{product.description}</p>
 
                     <div className={styles.productFooter}>
-                      <span className={styles.productPrice}>${product.price.toFixed(2)}</span>
+                      <span className={styles.productPrice}>{formatPrice(product.price)}</span>
                       {product.stock > 0 ? (
                         <button
                           onClick={() => addToCart(product.id, 1)}

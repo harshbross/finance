@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { X, ShoppingCart, Heart, Star, ExternalLink, Truck, ShieldCheck } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
+import { formatPrice } from '../utils/format';
 import styles from './QuickViewModal.module.css';
 
 export interface QuickViewProduct {
@@ -106,7 +107,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({ product, onClose
 
             {/* Price */}
             <div className={styles.priceRow}>
-              <span className={styles.price}>${product.price.toFixed(2)}</span>
+              <span className={styles.price}>{formatPrice(product.price)}</span>
               {product.stock > 0 ? (
                 <span className="badge badge-success">In Stock ({product.stock} available)</span>
               ) : (

@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { CreditCard, MapPin, ShieldCheck, ArrowLeft, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
+import { formatPrice } from '../../utils/format';
 import styles from './Checkout.module.css';
 
 export default function CheckoutPage() {
@@ -186,7 +187,7 @@ export default function CheckoutPage() {
 
             <button type="submit" className="btn-primary w-full" style={{ justifyContent: 'center', marginTop: '10px' }} disabled={loading}>
               <ShieldCheck size={18} />
-              {loading ? 'Processing Order...' : `Pay & Place Order ($${subtotal.toFixed(2)})`}
+              {loading ? 'Processing Order...' : `Pay & Place Order (${formatPrice(subtotal)})`}
             </button>
           </form>
         </div>
@@ -204,7 +205,7 @@ export default function CheckoutPage() {
                   <span className={styles.itemQuantity}>Qty: {item.quantity}</span>
                 </div>
                 <span className={styles.itemTotal}>
-                  ${(item.product.price * item.quantity).toFixed(2)}
+                  {formatPrice(item.product.price * item.quantity)}
                 </span>
               </div>
             ))}
@@ -214,7 +215,7 @@ export default function CheckoutPage() {
 
           <div className={styles.summaryRow}>
             <span>Subtotal</span>
-            <span>${subtotal.toFixed(2)}</span>
+            <span>{formatPrice(subtotal)}</span>
           </div>
           <div className={styles.summaryRow}>
             <span>Shipping</span>
@@ -225,7 +226,7 @@ export default function CheckoutPage() {
           
           <div className={styles.totalRow}>
             <span>Total to Pay</span>
-            <span className={styles.totalValue}>${subtotal.toFixed(2)}</span>
+            <span className={styles.totalValue}>{formatPrice(subtotal)}</span>
           </div>
 
           <div className={styles.secureBadge}>

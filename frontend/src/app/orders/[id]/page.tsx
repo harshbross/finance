@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useAuth } from '../../../context/AuthContext';
 import { CheckCircle2, Package, MapPin, Calendar, Clock, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
+import { formatPrice } from '../../../utils/format';
 import styles from './OrderDetail.module.css';
 
 interface OrderItem {
@@ -110,11 +111,11 @@ export default function OrderDetailPage() {
                 <div className={styles.itemInfo}>
                   <p className={styles.itemName}>{item.product.name}</p>
                   <p className={styles.itemQtyPrice}>
-                    Qty: {item.quantity} &times; ${item.priceAtPurchase.toFixed(2)}
+                    Qty: {item.quantity} &times; {formatPrice(item.priceAtPurchase)}
                   </p>
                 </div>
                 <div className={styles.itemTotal}>
-                  ${(item.priceAtPurchase * item.quantity).toFixed(2)}
+                  {formatPrice(item.priceAtPurchase * item.quantity)}
                 </div>
               </div>
             ))}
@@ -123,7 +124,7 @@ export default function OrderDetailPage() {
           <div className={styles.divider}></div>
           <div className={styles.totalRow}>
             <span>Grand Total Paid</span>
-            <span className={styles.totalValue}>${order.totalAmount.toFixed(2)}</span>
+            <span className={styles.totalValue}>{formatPrice(order.totalAmount)}</span>
           </div>
         </div>
 

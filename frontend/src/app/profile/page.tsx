@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { User, MapPin, Mail, Key, Save, ShoppingBag, Eye } from 'lucide-react';
 import Link from 'next/link';
+import { formatPrice } from '../../utils/format';
 import styles from './Profile.module.css';
 
 interface Order {
@@ -212,7 +213,7 @@ export default function ProfilePage() {
                   <p className={styles.orderDate}>{new Date(order.createdAt).toLocaleDateString()}</p>
                 </div>
                 <div className={styles.orderMeta}>
-                  <span className={styles.orderPrice}>${order.totalAmount.toFixed(2)}</span>
+                  <span className={styles.orderPrice}>{formatPrice(order.totalAmount)}</span>
                   <span className={`badge ${
                     order.status === 'Delivered' ? 'badge-success' :
                     order.status === 'Cancelled' ? 'badge-error' : 'badge-primary'

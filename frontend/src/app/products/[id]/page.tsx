@@ -20,6 +20,7 @@ import { useCart } from '../../../context/CartContext';
 import { useWishlist } from '../../../context/WishlistContext';
 import { useToast } from '../../../context/ToastContext';
 import { Skeleton } from '../../../components/Skeleton';
+import { MOCK_PRODUCTS } from '../../../data/mockProducts';
 import styles from './ProductDetail.module.css';
 
 interface Category {
@@ -79,6 +80,8 @@ export default function ProductDetailPage() {
   const fetchProduct = useCallback(async () => {
     if (!id) return;
     setLoading(true);
+    const numericId = parseInt(id as string);
+
     try {
       const res = await fetch(`${apiUrl}/api/products/${id}`);
       if (res.ok) {
@@ -100,14 +103,25 @@ export default function ProductDetailPage() {
             );
           }
         }
-      } else {
-        setProduct(null);
+        setLoading(false);
+        return;
       }
     } catch (err) {
-      console.error('Error fetching product details', err);
-    } finally {
-      setLoading(false);
+      console.error('API fetch failed, falling back to curated product:', err);
     }
+
+    // Fallback to MOCK_PRODUCTS
+    const mock = MOCK_PRODUCTS.find((p) => p.id === numericId);
+    if (mock) {
+      setProduct(mock as any);
+      setReviews(mock.reviews as any);
+      setRelatedProducts(
+        (MOCK_PRODUCTS.filter((p) => p.categoryId === mock.categoryId && p.id !== mock.id) as any)
+      );
+    } else {
+      setProduct(null);
+    }
+    setLoading(false);
   }, [id, apiUrl]);
 
   useEffect(() => {

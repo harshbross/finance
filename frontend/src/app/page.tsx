@@ -21,6 +21,7 @@ import {
   Eye
 } from 'lucide-react';
 import QuickViewModal, { QuickViewProduct } from '../components/QuickViewModal';
+import { MOCK_PRODUCTS, MOCK_CATEGORIES } from '../data/mockProducts';
 import styles from './Home.module.css';
 
 interface Category {
@@ -67,14 +68,29 @@ export default function HomePage() {
 
         if (prodRes.ok) {
           const prodData = await prodRes.json();
-          setFeaturedProducts(prodData.products || []);
+          if (prodData.products && prodData.products.length > 0) {
+            setFeaturedProducts(prodData.products);
+          } else {
+            setFeaturedProducts(MOCK_PRODUCTS.slice(0, 6));
+          }
+        } else {
+          setFeaturedProducts(MOCK_PRODUCTS.slice(0, 6));
         }
+
         if (catRes.ok) {
           const catData = await catRes.json();
-          setCategories(catData || []);
+          if (catData && catData.length > 0) {
+            setCategories(catData);
+          } else {
+            setCategories(MOCK_CATEGORIES);
+          }
+        } else {
+          setCategories(MOCK_CATEGORIES);
         }
       } catch (err) {
-        console.error('Failed to fetch homepage data', err);
+        console.error('Failed to fetch homepage data, using curated catalog', err);
+        setFeaturedProducts(MOCK_PRODUCTS.slice(0, 6));
+        setCategories(MOCK_CATEGORIES);
       } finally {
         setLoading(false);
       }

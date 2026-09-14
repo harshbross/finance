@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { ProductGridSkeleton } from '../../components/Skeleton';
 import QuickViewModal, { QuickViewProduct } from '../../components/QuickViewModal';
+import { MOCK_PRODUCTS, MOCK_CATEGORIES } from '../../data/mockProducts';
 import styles from './Products.module.css';
 
 interface Category {
@@ -69,11 +70,15 @@ function ProductsContent() {
         const res = await fetch(`${apiUrl}/api/categories`);
         if (res.ok) {
           const data = await res.json();
-          setCategories(data || []);
+          if (data && data.length > 0) {
+            setCategories(data);
+            return;
+          }
         }
       } catch (err) {
         console.error('Failed to load categories', err);
       }
+      setCategories(MOCK_CATEGORIES);
     }
     fetchCategories();
   }, [apiUrl]);
@@ -94,14 +99,37 @@ function ProductsContent() {
       const res = await fetch(`${apiUrl}/api/products?${query.toString()}`);
       if (res.ok) {
         const data = await res.json();
-        setProducts(data.products || []);
-        setTotalPages(data.totalPages || 1);
+        if (data.products && data.products.length > 0) {
+          setProducts(data.products);
+          setTotalPages(data.totalPages || 1);
+          return;
+        }
       }
     } catch (err) {
-      console.error('Failed to fetch products', err);
-    } finally {
-      setLoading(false);
+      console.error('Failed to fetch products, using curated catalog', err);
     }
+
+    // Curated catalog fallback
+    let filtered = [...MOCK_PRODUCTS];
+    if (search) {
+      const s = search.toLowerCase();
+      filtered = filtered.filter(
+        p => p.name.toLowerCase().includes(s) || p.description.toLowerCase().includes(s)
+      );
+    }
+    if (selectedCategory) {
+      filtered = filtered.filter(p => p.categoryId === parseInt(selectedCategory));
+    }
+    if (minPrice) filtered = filtered.filter(p => p.price >= parseFloat(minPrice));
+    if (maxPrice) filtered = filtered.filter(p => p.price <= parseFloat(maxPrice));
+    if (sortBy === 'price-asc') filtered.sort((a, b) => a.price - b.price);
+    else if (sortBy === 'price-desc') filtered.sort((a, b) => b.price - a.price);
+    else if (sortBy === 'name-asc') filtered.sort((a, b) => a.name.localeCompare(b.name));
+    else filtered.sort((a, b) => b.id - a.id);
+
+    setProducts(filtered);
+    setTotalPages(1);
+    setLoading(false);
   }, [apiUrl, search, selectedCategory, sortBy, minPrice, maxPrice, currentPage]);
 
   useEffect(() => {

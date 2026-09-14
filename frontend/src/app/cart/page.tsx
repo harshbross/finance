@@ -21,22 +21,14 @@ export default function CartPage() {
     await removeFromCart(item.id);
   };
 
-  if (!token) {
-    return (
-      <div className={`${styles.authRequired} glass-panel fade-in`}>
-        <ShoppingCart size={48} className={styles.icon} />
-        <h2>Login Required</h2>
-        <p>Please sign in to view and manage your shopping cart.</p>
-        <Link href="/login" className="btn-primary" style={{ marginTop: '16px' }}>
-          Go to Login
-        </Link>
-      </div>
-    );
-  }
-
   return (
     <div className="fade-in">
       <h1 className="section-title">Your Cart</h1>
+      {!token && cartItems.length > 0 && (
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', marginBottom: '20px' }}>
+          💡 Guest mode active — <Link href="/login" style={{ color: 'var(--accent-secondary)' }}>Sign in</Link> anytime to save your cart and fast-track checkout.
+        </p>
+      )}
 
       {loadingCart ? (
         <div className={styles.cartLayout}>

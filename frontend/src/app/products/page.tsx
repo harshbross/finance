@@ -1,10 +1,25 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, Suspense } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
-import { Search, Filter, ShoppingCart, SlidersHorizontal, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useWishlist } from '../../context/WishlistContext';
+import {
+  Search,
+  Filter,
+  ShoppingCart,
+  SlidersHorizontal,
+  ChevronLeft,
+  ChevronRight,
+  Heart,
+  Eye,
+  Star,
+  ArrowUpDown
+} from 'lucide-react';
+import { ProductGridSkeleton } from '../../components/Skeleton';
+import QuickViewModal, { QuickViewProduct } from '../../components/QuickViewModal';
 import styles from './Products.module.css';
 
 interface Category {
@@ -21,20 +36,31 @@ interface Product {
   stock: number;
   categoryId: number;
   category: Category;
+  averageRating?: number;
+  reviewCount?: number;
 }
 
-export default function ProductsPage() {
+function ProductsContent() {
   const { apiUrl } = useAuth();
   const { addToCart } = useCart();
+  const { isInWishlist, toggleWishlist } = useWishlist();
+  const searchParams = useSearchParams();
+
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Filters state
   const [search, setSearch] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || '');
+  const [sortBy, setSortBy] = useState('newest');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  // Quick View Modal
+  const [quickViewProduct, setQuickViewProduct] = useState<QuickViewProduct | null>(null);
 
   // Fetch categories
   useEffect(() => {
@@ -59,6 +85,9 @@ export default function ProductsPage() {
       const query = new URLSearchParams();
       if (search) query.append('search', search);
       if (selectedCategory) query.append('categoryId', selectedCategory);
+      if (sortBy) query.append('sortBy', sortBy);
+      if (minPrice) query.append('minPrice', minPrice);
+      if (maxPrice) query.append('maxPrice', maxPrice);
       query.append('page', currentPage.toString());
       query.append('limit', '8');
 
@@ -73,7 +102,7 @@ export default function ProductsPage() {
     } finally {
       setLoading(false);
     }
-  }, [apiUrl, search, selectedCategory, currentPage]);
+  }, [apiUrl, search, selectedCategory, sortBy, minPrice, maxPrice, currentPage]);
 
   useEffect(() => {
     fetchProducts();
@@ -90,11 +119,16 @@ export default function ProductsPage() {
     setCurrentPage(1);
   };
 
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortBy(e.target.value);
+    setCurrentPage(1);
+  };
+
   return (
     <div className="fade-in">
       <div className={styles.headerArea}>
         <h1 className="section-title">Discover Products</h1>
-        <p className={styles.subtitle}>Explore our high-performance gear with futuristic aesthetics</p>
+        <p className={styles.subtitle}>Explore our curated collection of premium products</p>
       </div>
 
       {/* Filter and Search Bar */}
@@ -112,6 +146,7 @@ export default function ProductsPage() {
         </form>
 
         <div className={styles.filtersRight}>
+          {/* Category Filter */}
           <div className={styles.selectWrapper}>
             <Filter size={16} className={styles.selectIcon} />
             <select
@@ -128,53 +163,127 @@ export default function ProductsPage() {
               ))}
             </select>
           </div>
+
+          {/* Sort Filter */}
+          <div className={styles.selectWrapper}>
+            <ArrowUpDown size={16} className={styles.selectIcon} />
+            <select
+              className="form-input"
+              style={{ paddingLeft: '40px', cursor: 'pointer' }}
+              value={sortBy}
+              onChange={handleSortChange}
+            >
+              <option value="newest">Newest Arrivals</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="name-asc">Name: A to Z</option>
+            </select>
+          </div>
         </div>
       </div>
 
       {/* Products Grid */}
       {loading ? (
-        <div className={styles.loader}>Loading products...</div>
+        <ProductGridSkeleton count={8} />
       ) : products.length > 0 ? (
         <>
           <div className={styles.productsGrid}>
-            {products.map((product) => (
-              <div key={product.id} className="glass-card p-4 flex flex-col">
-                <div className={styles.imageContainer}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={product.imageUrl} alt={product.name} className={styles.productImage} />
-                  {product.stock <= 0 && <span className={styles.outOfStockBadge}>Out of Stock</span>}
-                </div>
-                
-                <span className={styles.productCategory}>{product.category.name}</span>
-                <Link href={`/products/${product.id}`} className={styles.productNameLink}>
-                  <h3 className={styles.productName}>{product.name}</h3>
-                </Link>
-                
-                <p className={styles.productDesc}>{product.description}</p>
-                
-                <div className={styles.productFooter}>
-                  <span className={styles.productPrice}>${product.price.toFixed(2)}</span>
-                  {product.stock > 0 ? (
+            {products.map((product, i) => {
+              const inWish = isInWishlist(product.id);
+              const rating = product.averageRating || 5.0;
+
+              return (
+                <div
+                  key={product.id}
+                  className={`glass-card ${styles.productCard} fade-in-up stagger-${Math.min(
+                    i + 1,
+                    8
+                  )}`}
+                >
+                  <div className={styles.imageContainer}>
+                    {/* Top actions: Wishlist heart & Out-of-stock badge */}
+                    <div className={styles.cardTopActions}>
+                      {product.stock <= 0 ? (
+                        <span className={styles.outOfStockBadge}>Out of Stock</span>
+                      ) : (
+                        <span />
+                      )}
+                      <button
+                        className={`${styles.cardWishlistBtn} ${
+                          inWish ? styles.cardWishlistBtnActive : ''
+                        }`}
+                        onClick={() => toggleWishlist(product)}
+                        title={inWish ? 'Remove from wishlist' : 'Add to wishlist'}
+                      >
+                        <Heart
+                          size={18}
+                          fill={inWish ? '#ec4899' : 'none'}
+                          color={inWish ? '#ec4899' : 'currentColor'}
+                        />
+                      </button>
+                    </div>
+
+                    <Link href={`/products/${product.id}`} style={{ display: 'contents' }}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={product.imageUrl}
+                        alt={product.name}
+                        className={styles.productImage}
+                      />
+                    </Link>
+
+                    {/* Quick View Button on hover */}
                     <button
-                      onClick={() => addToCart(product.id, 1)}
-                      className="btn-primary"
-                      style={{ padding: '8px 12px', fontSize: '0.8rem' }}
+                      className={styles.quickViewBtn}
+                      onClick={() => setQuickViewProduct(product)}
+                      title="Quick View"
                     >
-                      <ShoppingCart size={14} />
-                      Add
+                      <Eye size={14} />
+                      Quick View
                     </button>
-                  ) : (
-                    <button
-                      className="btn-secondary"
-                      style={{ padding: '8px 12px', fontSize: '0.8rem', cursor: 'not-allowed' }}
-                      disabled
-                    >
-                      Empty
-                    </button>
-                  )}
+                  </div>
+
+                  <div className={styles.productInfo}>
+                    <div className={styles.productCategoryRow}>
+                      <span className={styles.productCategory}>{product.category.name}</span>
+                      <div className={styles.ratingBadge}>
+                        <Star size={12} fill="#fbbf24" color="#fbbf24" />
+                        <span>{rating.toFixed(1)}</span>
+                        <span className={styles.reviewCount}>({product.reviewCount || 0})</span>
+                      </div>
+                    </div>
+
+                    <Link href={`/products/${product.id}`} className={styles.productNameLink}>
+                      <h3 className={styles.productName}>{product.name}</h3>
+                    </Link>
+
+                    <p className={styles.productDesc}>{product.description}</p>
+
+                    <div className={styles.productFooter}>
+                      <span className={styles.productPrice}>${product.price.toFixed(2)}</span>
+                      {product.stock > 0 ? (
+                        <button
+                          onClick={() => addToCart(product.id, 1)}
+                          className="btn-primary"
+                          style={{ padding: '8px 12px', fontSize: '0.8rem' }}
+                        >
+                          <ShoppingCart size={14} />
+                          Add
+                        </button>
+                      ) : (
+                        <button
+                          className="btn-secondary"
+                          style={{ padding: '8px 12px', fontSize: '0.8rem', cursor: 'not-allowed' }}
+                          disabled
+                        >
+                          Sold Out
+                        </button>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Pagination Controls */}
@@ -209,6 +318,20 @@ export default function ProductsPage() {
           <p>Try resetting filters or searching with another term.</p>
         </div>
       )}
+
+      {/* Quick View Modal */}
+      <QuickViewModal
+        product={quickViewProduct}
+        onClose={() => setQuickViewProduct(null)}
+      />
     </div>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={<ProductGridSkeleton count={8} />}>
+      <ProductsContent />
+    </Suspense>
   );
 }

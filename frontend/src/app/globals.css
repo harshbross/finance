@@ -29,6 +29,7 @@
   --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
   
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   --border-radius-sm: 8px;
   --border-radius-md: 14px;
   --border-radius-lg: 24px;
@@ -66,7 +67,8 @@ body {
   background-color: var(--bg-primary);
   background-image: 
     radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(0, 242, 254, 0.1) 0px, transparent 50%);
+    radial-gradient(at 100% 100%, rgba(0, 242, 254, 0.1) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(244, 63, 94, 0.05) 0px, transparent 60%);
   background-attachment: fixed;
   color: var(--text-primary);
   font-family: var(--font-sans);
@@ -126,7 +128,7 @@ a {
 .glass-card:hover {
   border-color: var(--border-glass-hover);
   transform: translateY(-4px);
-  box-shadow: 0 12px 30px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 12px 30px 0 rgba(0, 0, 0, 0.2), 0 0 40px -12px var(--accent-primary-glow);
 }
 
 /* Typography styles */
@@ -139,6 +141,28 @@ a {
 
 .glow-text {
   text-shadow: 0 0 20px var(--accent-primary-glow);
+}
+
+/* Animated gradient text for hero */
+.animated-gradient-text {
+  background: linear-gradient(
+    135deg,
+    var(--accent-primary) 0%,
+    var(--accent-secondary) 25%,
+    var(--accent-tertiary) 50%,
+    var(--accent-primary) 75%,
+    var(--accent-secondary) 100%
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 6s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 /* Interactive Elements */
@@ -156,6 +180,8 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
 }
 
 .btn-primary:hover {
@@ -181,6 +207,7 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  font-size: 0.95rem;
 }
 
 .btn-secondary:hover {
@@ -206,6 +233,27 @@ a {
 .btn-danger:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  padding: 8px 16px;
+  border-radius: var(--border-radius-sm);
+  font-family: var(--font-display);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+.btn-ghost:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 /* Custom form elements */
@@ -298,6 +346,61 @@ a {
   animation: fadeIn 0.5s ease-out forwards;
 }
 
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.scale-in {
+  animation: scaleIn 0.35s ease-out forwards;
+}
+
+/* Stagger animation helper */
+.stagger-1 { animation-delay: 0.05s; opacity: 0; }
+.stagger-2 { animation-delay: 0.1s; opacity: 0; }
+.stagger-3 { animation-delay: 0.15s; opacity: 0; }
+.stagger-4 { animation-delay: 0.2s; opacity: 0; }
+.stagger-5 { animation-delay: 0.25s; opacity: 0; }
+.stagger-6 { animation-delay: 0.3s; opacity: 0; }
+.stagger-7 { animation-delay: 0.35s; opacity: 0; }
+.stagger-8 { animation-delay: 0.4s; opacity: 0; }
+
+/* Pulse animation for cart badge */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.pulse {
+  animation: pulse 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Orb floating decoration */
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(20px, -30px) scale(1.05); }
+  66% { transform: translate(-15px, 15px) scale(0.95); }
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.3;
+  pointer-events: none;
+  animation: orbFloat 12s ease-in-out infinite;
+}
+
 /* Grid layout utilities */
 .container {
   max-width: 1200px;
@@ -311,4 +414,101 @@ a {
   background: linear-gradient(135deg, #fff 0%, #b4b3c4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.w-full {
+  width: 100%;
+}
+
+/* Star rating component */
+.star-rating {
+  display: inline-flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.star-rating .star {
+  color: var(--text-muted);
+  transition: color 0.15s ease;
+}
+
+.star-rating .star.filled {
+  color: var(--warning);
+  filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.4));
+}
+
+.star-rating .star.interactive {
+  cursor: pointer;
+}
+
+.star-rating .star.interactive:hover {
+  color: var(--warning);
+  transform: scale(1.15);
+}
+
+/* Wishlist heart button */
+.heart-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-bounce);
+  color: var(--text-muted);
+}
+
+.heart-btn:hover {
+  color: var(--accent-tertiary);
+  background: rgba(244, 63, 94, 0.1);
+}
+
+.heart-btn.active {
+  color: var(--accent-tertiary);
+  filter: drop-shadow(0 0 6px rgba(244, 63, 94, 0.5));
+}
+
+@keyframes heartBounce {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.3); }
+  60% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+.heart-btn.animate {
+  animation: heartBounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.breadcrumb a {
+  color: var(--text-secondary);
+}
+
+.breadcrumb a:hover {
+  color: var(--accent-primary);
+}
+
+.breadcrumb .separator {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.breadcrumb .current {
+  color: var(--text-primary);
+  font-weight: 500;
 }

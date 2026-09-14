@@ -11,15 +11,17 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
+  id           Int            @id @default(autoincrement())
   name         String
-  email        String   @unique
+  email        String         @unique
   passwordHash String
-  role         String   @default("USER") // "USER" or "ADMIN"
+  role         String         @default("USER") // "USER" or "ADMIN"
   address      String?
-  createdAt    DateTime @default(now())
+  createdAt    DateTime       @default(now())
   cart         Cart?
   orders       Order[]
+  wishlist     WishlistItem[]
+  reviews      Review[]
 }
 
 model Category {
@@ -30,17 +32,19 @@ model Category {
 }
 
 model Product {
-  id          Int         @id @default(autoincrement())
-  name        String
-  description String
-  price       Float
-  stock       Int
-  imageUrl    String
-  categoryId  Int
-  category    Category    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  cartItems   CartItem[]
-  orderItems  OrderItem[]
-  createdAt   DateTime    @default(now())
+  id            Int            @id @default(autoincrement())
+  name          String
+  description   String
+  price         Float
+  stock         Int
+  imageUrl      String
+  categoryId    Int
+  category      Category       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  cartItems     CartItem[]
+  orderItems    OrderItem[]
+  wishlistItems WishlistItem[]
+  reviews       Review[]
+  createdAt     DateTime       @default(now())
 }
 
 model Cart {
@@ -80,4 +84,28 @@ model OrderItem {
   product         Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   quantity        Int
   priceAtPurchase Float
+}
+
+model WishlistItem {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  rating    Int      // 1 to 5
+  comment   String?
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
 }

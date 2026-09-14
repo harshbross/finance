@@ -148,6 +148,25 @@
   background: rgba(239, 68, 68, 0.05);
 }
 
+.saveForLaterBtn {
+  background: transparent;
+  border: 1px solid var(--border-glass);
+  color: var(--text-muted);
+  padding: 8px;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.saveForLaterBtn:hover {
+  color: #ec4899;
+  border-color: rgba(236, 72, 153, 0.4);
+  background: rgba(236, 72, 153, 0.1);
+}
+
 .summaryCard {
   padding: 30px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);

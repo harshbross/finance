@@ -2,11 +2,15 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "../context/AuthContext";
 import { CartProvider } from "../context/CartContext";
+import { ToastProvider } from "../context/ToastContext";
+import { WishlistProvider } from "../context/WishlistContext";
 import NavBar from "../components/NavBar";
+import ToastContainer from "../components/Toast";
+import Footer from "../components/Footer";
 
 export const metadata: Metadata = {
-  title: "Aether Shop - Premium E-Commerce Dashboard",
-  description: "Browse high-tech products and manage orders with glassmorphic dashboards.",
+  title: "Aether Shop - Premium E-Commerce",
+  description: "Discover curated tech, lifestyle products and modern essentials at Aether Shop. Free delivery on all orders.",
 };
 
 export default function RootLayout({
@@ -18,25 +22,20 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AuthProvider>
-          <CartProvider>
-            <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-              <NavBar />
-              <main style={{ flex: 1, padding: '24px', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
-                {children}
-              </main>
-              <footer style={{
-                textAlign: 'center',
-                padding: '30px 24px',
-                color: 'var(--text-muted)',
-                fontSize: '0.85rem',
-                borderTop: '1px solid var(--border-glass)',
-                marginTop: '40px',
-                background: 'rgba(10, 9, 21, 0.4)'
-              }}>
-                <p>&copy; {new Date().getFullYear()} Aether Shop. Built with Next.js, Express, and Prisma.</p>
-              </footer>
-            </div>
-          </CartProvider>
+          <ToastProvider>
+            <CartProvider>
+              <WishlistProvider>
+                <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+                  <NavBar />
+                  <main style={{ flex: 1, padding: '24px', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
+                    {children}
+                  </main>
+                  <Footer />
+                </div>
+                <ToastContainer />
+              </WishlistProvider>
+            </CartProvider>
+          </ToastProvider>
         </AuthProvider>
       </body>
     </html>

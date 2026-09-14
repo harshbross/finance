@@ -3,13 +3,23 @@
 import React from 'react';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
-import { ShoppingCart, Trash2, ArrowRight, ShoppingBag, Plus, Minus } from 'lucide-react';
+import { useWishlist } from '../../context/WishlistContext';
+import { ShoppingCart, Trash2, ArrowRight, ShoppingBag, Plus, Minus, Heart } from 'lucide-react';
 import Link from 'next/link';
+import { CartItemSkeleton } from '../../components/Skeleton';
 import styles from './Cart.module.css';
 
 export default function CartPage() {
   const { token } = useAuth();
   const { cartItems, loadingCart, updateQuantity, removeFromCart, subtotal, itemCount } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
+
+  const handleSaveForLater = async (item: any) => {
+    if (!isInWishlist(item.product.id)) {
+      await toggleWishlist(item.product);
+    }
+    await removeFromCart(item.id);
+  };
 
   if (!token) {
     return (
@@ -29,7 +39,13 @@ export default function CartPage() {
       <h1 className="section-title">Your Cart</h1>
 
       {loadingCart ? (
-        <div className={styles.loader}>Refreshing cart items...</div>
+        <div className={styles.cartLayout}>
+          <div className={`${styles.itemsListCard} glass-panel`}>
+            <CartItemSkeleton />
+            <CartItemSkeleton />
+            <CartItemSkeleton />
+          </div>
+        </div>
       ) : cartItems.length > 0 ? (
         <div className={styles.cartLayout}>
           {/* Cart Items List */}
@@ -72,6 +88,13 @@ export default function CartPage() {
                   <span className={styles.itemTotal}>
                     ${(item.product.price * item.quantity).toFixed(2)}
                   </span>
+                  <button
+                    onClick={() => handleSaveForLater(item)}
+                    className={styles.saveForLaterBtn}
+                    title="Save for Later (Move to Wishlist)"
+                  >
+                    <Heart size={16} />
+                  </button>
                   <button
                     onClick={() => removeFromCart(item.id)}
                     className={styles.deleteBtn}

@@ -8,7 +8,21 @@
   height: 70px;
   display: flex;
   align-items: center;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: all 0.35s ease;
+}
+
+.header.scrolled {
+  margin: 0;
+  border-radius: 0;
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  background: rgba(10, 9, 21, 0.85);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
 }
 
 .navContainer {
@@ -31,6 +45,7 @@
   letter-spacing: 0.05em;
   color: var(--text-primary);
   text-transform: uppercase;
+  flex-shrink: 0;
 }
 
 .logoIcon {
@@ -41,7 +56,7 @@
 .navLinks {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 8px;
 }
 
 .navLink {
@@ -51,13 +66,14 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 8px 14px;
   border-radius: var(--border-radius-sm);
+  transition: var(--transition-smooth);
 }
 
 .navLink:hover {
   color: var(--text-primary);
-  background: var(--bg-glass-card);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .adminLink {
@@ -74,7 +90,7 @@
 .actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .cartBtn {
@@ -94,7 +110,7 @@
 .cartBtn:hover {
   color: var(--text-primary);
   border-color: var(--text-secondary);
-  background: var(--bg-glass-card);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .badge {
@@ -114,18 +130,26 @@
   padding: 0 4px;
   border: 1.5px solid var(--bg-primary);
   box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+  animation: pulse 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+  100% { transform: scale(1); }
 }
 
 .profileBtn {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: var(--bg-glass-card);
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border-glass);
   padding: 8px 14px;
   border-radius: var(--border-radius-sm);
   color: var(--text-secondary);
   font-weight: 500;
+  transition: var(--transition-smooth);
 }
 
 .profileBtn:hover {
@@ -160,11 +184,173 @@
   background: rgba(239, 68, 68, 0.05);
 }
 
+/* Hamburger Button - hidden on desktop */
+.hamburger {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--border-glass);
+  color: var(--text-primary);
+  padding: 8px;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.hamburger:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Mobile Overlay */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 150;
+}
+
+/* Mobile Drawer */
+.mobileDrawer {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100vh;
+  background: var(--bg-secondary);
+  border-left: 1px solid var(--border-glass);
+  z-index: 200;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.4);
+}
+
+.drawerOpen {
+  transform: translateX(0);
+}
+
+.mobileNav {
+  padding: 80px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobileLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 1rem;
+  border-radius: var(--border-radius-sm);
+  transition: var(--transition-smooth);
+}
+
+.mobileLink:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.mobileAdmin {
+  color: var(--accent-secondary);
+}
+
+.mobileBadge {
+  background: var(--accent-primary);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-left: auto;
+}
+
+.mobileDivider {
+  height: 1px;
+  background: var(--border-glass);
+  margin: 12px 0;
+}
+
+.mobileLogout {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  color: var(--error);
+  font-weight: 500;
+  font-size: 1rem;
+  border-radius: var(--border-radius-sm);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  transition: var(--transition-smooth);
+}
+
+.mobileLogout:hover {
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.mobileAuthBtns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
+  .header {
+    margin: 8px 12px;
+    padding: 0 16px;
+    height: 60px;
+  }
+  
+  .header.scrolled {
+    margin: 0;
+  }
+
+  .navLinks {
+    display: none;
+  }
+  
   .userName {
     display: none;
   }
-  .navLinks {
-    display: none; /* simple responsive fallback for layout */
+  
+  .profileBtn {
+    padding: 8px;
+  }
+  
+  /* Hide desktop auth buttons on mobile */
+  .actions > a.btn-secondary,
+  .actions > a.btn-primary {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+  
+  .overlay {
+    display: block;
+  }
+  
+  .mobileDrawer {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    margin: 4px 8px;
+    padding: 0 12px;
+  }
+  
+  .logo {
+    font-size: 1.1rem;
   }
 }

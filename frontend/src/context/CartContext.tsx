@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useAuth } from './AuthContext';
+import { useToast } from './ToastContext';
 
 export interface Product {
   id: number;
@@ -39,6 +40,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const { token, apiUrl } = useAuth();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loadingCart, setLoadingCart] = useState(false);
+  // Use a ref-like pattern to avoid circular dependency with ToastContext
+  const [toastQueue, setToastQueue] = useState<{message: string; type: 'success' | 'error' | 'info' | 'warning'}[]>([]);
 
   const fetchCart = useCallback(async () => {
     if (!token) {
@@ -71,7 +74,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const addToCart = async (productId: number, quantity: number = 1) => {
     if (!token) {
-      alert('Please log in to add items to your cart.');
       window.location.href = '/login';
       return;
     }
@@ -93,8 +95,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       // Re-fetch cart to update the state correctly
       await fetchCart();
+      setToastQueue(prev => [...prev, { message: 'Added to cart!', type: 'success' }]);
     } catch (error: any) {
-      alert(error.message || 'Failed to add item');
+      setToastQueue(prev => [...prev, { message: error.message || 'Failed to add item', type: 'error' }]);
       throw error;
     }
   };
@@ -119,7 +122,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       await fetchCart();
     } catch (error: any) {
-      alert(error.message || 'Failed to update quantity');
+      setToastQueue(prev => [...prev, { message: error.message || 'Failed to update quantity', type: 'error' }]);
       throw error;
     }
   };
@@ -141,8 +144,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       await fetchCart();
+      setToastQueue(prev => [...prev, { message: 'Item removed from cart', type: 'info' }]);
     } catch (error: any) {
-      alert(error.message || 'Failed to remove item');
+      setToastQueue(prev => [...prev, { message: error.message || 'Failed to remove item', type: 'error' }]);
       throw error;
     }
   };
@@ -166,9 +170,24 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       subtotal,
       itemCount
     }}>
+      <CartToastBridge toastQueue={toastQueue} clearQueue={() => setToastQueue([])} />
       {children}
     </CartContext.Provider>
   );
+};
+
+// Bridge component that processes toast queue using the ToastContext
+const CartToastBridge: React.FC<{ toastQueue: {message: string; type: 'success' | 'error' | 'info' | 'warning'}[]; clearQueue: () => void }> = ({ toastQueue, clearQueue }) => {
+  const { addToast } = useToast();
+
+  useEffect(() => {
+    if (toastQueue.length > 0) {
+      toastQueue.forEach(t => addToast(t.message, t.type));
+      clearQueue();
+    }
+  }, [toastQueue, addToast, clearQueue]);
+
+  return null;
 };
 
 export const useCart = () => {

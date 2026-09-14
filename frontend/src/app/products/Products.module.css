@@ -9,18 +9,19 @@
 
 .filterBar {
   display: flex;
-  padding: 16px 24px;
-  gap: 20px;
-  margin-bottom: 40px;
+  padding: 18px 24px;
+  gap: 16px;
+  margin-bottom: 36px;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  border-radius: var(--border-radius-md);
 }
 
 .searchForm {
   position: relative;
   flex: 1;
-  min-width: 280px;
+  min-width: 240px;
 }
 
 .searchIcon {
@@ -33,39 +34,71 @@
 
 .filtersRight {
   display: flex;
-  gap: 16px;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .selectWrapper {
   position: relative;
   display: flex;
   align-items: center;
+  min-width: 170px;
 }
 
 .selectIcon {
   position: absolute;
-  left: 16px;
+  left: 14px;
   color: var(--text-muted);
   pointer-events: none;
+}
+
+.priceFilterGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.priceInput {
+  width: 90px;
+  padding: 10px 12px;
+  font-size: 0.85rem;
+}
+
+.priceDivider {
+  color: var(--text-muted);
+  font-size: 0.85rem;
 }
 
 .productsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 30px;
+  gap: 24px;
+}
+
+.productCard {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--border-radius-md);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  position: relative;
+}
+
+.productCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
 }
 
 .imageContainer {
-  height: 220px;
+  height: 230px;
   width: 100%;
-  border-radius: var(--border-radius-sm);
   background: rgba(255, 255, 255, 0.02);
-  margin-bottom: 16px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--border-glass);
+  border-bottom: 1px solid var(--border-glass);
   position: relative;
 }
 
@@ -73,17 +106,91 @@
   max-height: 100%;
   max-width: 100%;
   object-fit: cover;
-  transition: var(--transition-smooth);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.glass-card:hover .productImage {
+.productCard:hover .productImage {
   transform: scale(1.06);
 }
 
-.outOfStockBadge {
+.cardTopActions {
   position: absolute;
   top: 12px;
+  left: 12px;
   right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.cardTopActions > * {
+  pointer-events: auto;
+}
+
+.cardWishlistBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(10, 9, 21, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-glass);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.cardWishlistBtn:hover {
+  transform: scale(1.1);
+  color: #ec4899;
+  border-color: rgba(236, 72, 153, 0.4);
+}
+
+.cardWishlistBtnActive {
+  background: rgba(236, 72, 153, 0.2);
+  border-color: #ec4899;
+  color: #ec4899;
+}
+
+.quickViewBtn {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  opacity: 0;
+  background: rgba(10, 9, 21, 0.85);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  border: 1px solid var(--border-glass);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.productCard:hover .quickViewBtn {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.quickViewBtn:hover {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.outOfStockBadge {
   background: rgba(239, 68, 68, 0.9);
   color: white;
   padding: 4px 10px;
@@ -93,18 +200,46 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+.productInfo {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.productCategoryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
 .productCategory {
   font-size: 0.75rem;
   color: var(--accent-primary);
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 0.05em;
-  margin-bottom: 6px;
+}
+
+.ratingBadge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+.reviewCount {
+  color: var(--text-muted);
+  font-weight: 400;
 }
 
 .productNameLink {
   color: #fff;
   margin-bottom: 8px;
+  text-decoration: none;
 }
 
 .productNameLink:hover {
@@ -112,18 +247,19 @@
 }
 
 .productName {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 600;
+  line-height: 1.35;
 }
 
 .productDesc {
   color: var(--text-secondary);
-  font-size: 0.88rem;
-  line-height: 1.6;
-  margin-bottom: 20px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-bottom: 16px;
   flex-grow: 1;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -178,12 +314,19 @@
   margin-bottom: 16px;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 860px) {
   .filterBar {
     flex-direction: column;
     align-items: stretch;
   }
-  .searchForm, .filtersRight, .selectWrapper {
+  .searchForm {
+    min-width: 100%;
+  }
+  .filtersRight {
     width: 100%;
+    justify-content: space-between;
+  }
+  .selectWrapper {
+    flex: 1;
   }
 }

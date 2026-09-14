@@ -3,10 +3,10 @@ const router = express.Router();
 const prisma = require('../prismaClient');
 const { authenticateToken, requireAdmin } = require('../middleware/auth');
 
-// Get all products (with search, category filter, pagination)
+// Get all products (with search, category filter, price filter, sorting, pagination)
 router.get('/', async (req, res) => {
   try {
-    const { search, categoryId, page = 1, limit = 12 } = req.query;
+    const { search, categoryId, minPrice, maxPrice, sortBy = 'newest', page = 1, limit = 12 } = req.query;
     const skip = (parseInt(page) - 1) * parseInt(limit);
     const take = parseInt(limit);
 
@@ -23,16 +23,44 @@ router.get('/', async (req, res) => {
       where.categoryId = parseInt(categoryId);
     }
 
-    const [products, total] = await prisma.$transaction([
+    if (minPrice || maxPrice) {
+      where.price = {};
+      if (minPrice) where.price.gte = parseFloat(minPrice);
+      if (maxPrice) where.price.lte = parseFloat(maxPrice);
+    }
+
+    let orderBy = { createdAt: 'desc' };
+    if (sortBy === 'price-asc') orderBy = { price: 'asc' };
+    else if (sortBy === 'price-desc') orderBy = { price: 'desc' };
+    else if (sortBy === 'name-asc') orderBy = { name: 'asc' };
+    else if (sortBy === 'name-desc') orderBy = { name: 'desc' };
+    else if (sortBy === 'newest') orderBy = { createdAt: 'desc' };
+
+    const [rawProducts, total] = await prisma.$transaction([
       prisma.product.findMany({
         where,
         skip,
         take,
-        include: { category: true },
-        orderBy: { createdAt: 'desc' }
+        include: {
+          category: true,
+          reviews: { select: { rating: true } }
+        },
+        orderBy
       }),
       prisma.product.count({ where })
     ]);
+
+    const products = rawProducts.map(p => {
+      const revs = p.reviews || [];
+      const avgRating = revs.length > 0
+        ? parseFloat((revs.reduce((sum, r) => sum + r.rating, 0) / revs.length).toFixed(1))
+        : 0;
+      return {
+        ...p,
+        averageRating: avgRating,
+        reviewCount: revs.length
+      };
+    });
 
     res.json({
       products,
@@ -52,14 +80,31 @@ router.get('/:id', async (req, res) => {
     const { id } = req.params;
     const product = await prisma.product.findUnique({
       where: { id: parseInt(id) },
-      include: { category: true }
+      include: {
+        category: true,
+        reviews: {
+          include: {
+            user: { select: { id: true, name: true } }
+          },
+          orderBy: { createdAt: 'desc' }
+        }
+      }
     });
 
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
 
-    res.json(product);
+    const revs = product.reviews || [];
+    const avgRating = revs.length > 0
+      ? parseFloat((revs.reduce((sum, r) => sum + r.rating, 0) / revs.length).toFixed(1))
+      : 0;
+
+    res.json({
+      ...product,
+      averageRating: avgRating,
+      reviewCount: revs.length
+    });
   } catch (error) {
     console.error('Fetch product by ID error:', error);
     res.status(500).json({ message: 'Server error' });

@@ -19,16 +19,28 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${apiUrl}/api/auth/login`, {
+      const endpoint = apiUrl ? `${apiUrl}/api/auth/login` : '/api/auth/login';
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
+      // Safely parse JSON to prevent "JSON.parse: unexpected character"
+      const rawText = await response.text();
+      let data: any = {};
+      try {
+        data = rawText ? JSON.parse(rawText) : {};
+      } catch {
+        throw new Error('Server returned an invalid response. Please verify the API status.');
+      }
 
       if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
+        throw new Error(data.message || 'Login failed. Please check your credentials.');
+      }
+
+      if (!data.token || !data.user) {
+        throw new Error('Authentication failed: Missing session token.');
       }
 
       login(data.token, data.user);
@@ -42,28 +54,28 @@ export default function LoginPage() {
 
   return (
     <div className={`${styles.authContainer} fade-in`}>
-      <div className={`${styles.authCard} glass-panel`}>
+      <div className={styles.authCard}>
         <div className={styles.header}>
           <div className={styles.iconWrap}>
-            <LogIn size={24} className={styles.icon} />
+            <LogIn size={20} className={styles.icon} />
           </div>
-          <h2 className="glow-text">Welcome Back</h2>
+          <h2 className={styles.title}>Welcome Back</h2>
           <p className={styles.subtitle}>Enter your credentials to access your account</p>
         </div>
 
-        {error && <div className={`${styles.alert} badge badge-error`}>{error}</div>}
+        {error && <div className={`${styles.alert} badge-error`}>{error}</div>}
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className="form-group">
             <label className="form-label" htmlFor="email">Email Address</label>
             <div className={styles.inputWrapper}>
-              <Mail size={18} className={styles.inputIcon} />
+              <Mail size={16} className={styles.inputIcon} />
               <input
                 id="email"
                 type="email"
                 className="form-input"
-                style={{ paddingLeft: '45px' }}
-                placeholder="name@example.com"
+                style={{ paddingLeft: '40px' }}
+                placeholder="admin@aethershop.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -74,12 +86,12 @@ export default function LoginPage() {
           <div className="form-group">
             <label className="form-label" htmlFor="password">Password</label>
             <div className={styles.inputWrapper}>
-              <Lock size={18} className={styles.inputIcon} />
+              <Lock size={16} className={styles.inputIcon} />
               <input
                 id="password"
                 type="password"
                 className="form-input"
-                style={{ paddingLeft: '45px' }}
+                style={{ paddingLeft: '40px' }}
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -88,8 +100,13 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <button type="submit" className="btn-primary w-full" style={{ justifyContent: 'center', marginTop: '10px' }} disabled={loading}>
-            {loading ? 'Logging in...' : 'Sign In'}
+          <button
+            type="submit"
+            className="btn-primary w-full"
+            style={{ justifyContent: 'center', marginTop: '6px' }}
+            disabled={loading}
+          >
+            {loading ? 'Authenticating...' : 'Sign In'}
           </button>
         </form>
 

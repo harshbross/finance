@@ -1,21 +1,23 @@
 .headerArea {
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
 .subtitle {
   color: var(--text-secondary);
-  font-size: 1rem;
+  font-size: 0.875rem;
 }
 
 .filterBar {
   display: flex;
-  padding: 18px 24px;
-  gap: 16px;
-  margin-bottom: 36px;
+  padding: 14px 18px;
+  gap: 14px;
+  margin-bottom: 28px;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  border-radius: var(--border-radius-md);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
 }
 
 .searchForm {
@@ -26,7 +28,7 @@
 
 .searchIcon {
   position: absolute;
-  left: 16px;
+  left: 14px;
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-muted);
@@ -34,7 +36,7 @@
 
 .filtersRight {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
   align-items: center;
 }
@@ -43,12 +45,12 @@
   position: relative;
   display: flex;
   align-items: center;
-  min-width: 170px;
+  min-width: 160px;
 }
 
 .selectIcon {
   position: absolute;
-  left: 14px;
+  left: 12px;
   color: var(--text-muted);
   pointer-events: none;
 }
@@ -60,45 +62,51 @@
 }
 
 .priceInput {
-  width: 90px;
-  padding: 10px 12px;
-  font-size: 0.85rem;
+  width: 85px;
+  padding: 8px 10px;
+  font-size: 0.8125rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  color: var(--text-primary);
 }
 
 .priceDivider {
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.8125rem;
 }
 
 .productsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 24px;
+  gap: 16px;
 }
 
 .productCard {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border-radius: var(--border-radius-md);
-  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
   position: relative;
 }
 
 .productCard:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-sm);
 }
 
 .imageContainer {
-  height: 230px;
+  height: 200px;
   width: 100%;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--bg-surface-subtle);
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid var(--border-glass);
+  border-bottom: 1px solid var(--border-subtle);
   position: relative;
 }
 
@@ -106,18 +114,18 @@
   max-height: 100%;
   max-width: 100%;
   object-fit: cover;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.25s ease;
 }
 
 .productCard:hover .productImage {
-  transform: scale(1.06);
+  transform: scale(1.03);
 }
 
 .cardTopActions {
   position: absolute;
-  top: 12px;
-  left: 12px;
-  right: 12px;
+  top: 10px;
+  left: 10px;
+  right: 10px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -130,78 +138,70 @@
 }
 
 .cardWishlistBtn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(10, 9, 21, 0.7);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--border-glass);
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-xs);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   color: var(--text-muted);
-  transition: all var(--transition-fast);
+  transition: color var(--transition-fast), border-color var(--transition-fast);
 }
 
 .cardWishlistBtn:hover {
-  transform: scale(1.1);
-  color: #ec4899;
-  border-color: rgba(236, 72, 153, 0.4);
+  color: var(--text-primary);
+  border-color: var(--border-hover);
 }
 
 .cardWishlistBtnActive {
-  background: rgba(236, 72, 153, 0.2);
-  border-color: #ec4899;
-  color: #ec4899;
+  color: var(--accent-tertiary);
+  border-color: rgba(190, 18, 60, 0.35);
 }
 
 .quickViewBtn {
   position: absolute;
-  bottom: 12px;
+  bottom: 10px;
   left: 50%;
-  transform: translateX(-50%) translateY(10px);
+  transform: translateX(-50%);
   opacity: 0;
-  background: rgba(10, 9, 21, 0.85);
-  backdrop-filter: blur(8px);
-  color: #fff;
-  border: 1px solid var(--border-glass);
-  padding: 8px 16px;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 600;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+  padding: 5px 12px;
+  border-radius: var(--radius-xs);
+  font-size: 0.75rem;
+  font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   cursor: pointer;
-  transition: all var(--transition-fast);
-  pointer-events: none;
+  transition: opacity var(--transition-fast), background var(--transition-fast);
   z-index: 3;
 }
 
 .productCard:hover .quickViewBtn {
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
-  pointer-events: auto;
 }
 
 .quickViewBtn:hover {
-  background: var(--accent-primary);
-  border-color: var(--accent-primary);
+  background: var(--bg-surface-elevated);
 }
 
 .outOfStockBadge {
-  background: rgba(239, 68, 68, 0.9);
-  color: white;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  padding: 2px 7px;
+  border-radius: var(--radius-xs);
+  font-size: 0.6875rem;
+  font-weight: 500;
 }
 
 .productInfo {
-  padding: 16px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -211,24 +211,24 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .productCategory {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   color: var(--accent-primary);
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.05em;
 }
 
 .ratingBadge {
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 0.78rem;
-  color: #fbbf24;
-  font-weight: 600;
+  gap: 3px;
+  font-size: 0.75rem;
+  color: var(--warning);
+  font-weight: 500;
 }
 
 .reviewCount {
@@ -237,26 +237,26 @@
 }
 
 .productNameLink {
-  color: #fff;
-  margin-bottom: 8px;
+  color: var(--text-primary);
+  margin-bottom: 6px;
   text-decoration: none;
 }
 
 .productNameLink:hover {
-  color: var(--accent-secondary);
+  color: var(--accent-primary);
 }
 
 .productName {
-  font-size: 1.05rem;
+  font-size: 0.9375rem;
   font-weight: 600;
   line-height: 1.35;
 }
 
 .productDesc {
   color: var(--text-secondary);
-  font-size: 0.85rem;
+  font-size: 0.8125rem;
   line-height: 1.5;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   flex-grow: 1;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -269,38 +269,39 @@
   justify-content: space-between;
   align-items: center;
   margin-top: auto;
-  border-top: 1px solid var(--border-glass);
-  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 12px;
 }
 
 .productPrice {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: var(--accent-secondary);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-primary);
+  font-feature-settings: 'tnum';
 }
 
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 16px;
-  margin-top: 50px;
+  gap: 12px;
+  margin-top: 40px;
 }
 
 .pageNumber {
   color: var(--text-secondary);
-  font-size: 0.95rem;
+  font-size: 0.875rem;
 }
 
 .loader {
   text-align: center;
-  padding: 80px;
+  padding: 60px;
   color: var(--text-muted);
 }
 
 .emptyState {
-  padding: 80px 40px;
+  padding: 60px 30px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -311,7 +312,7 @@
 
 .emptyIcon {
   color: var(--text-muted);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 @media (max-width: 860px) {

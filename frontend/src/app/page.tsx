@@ -9,16 +9,17 @@ import {
   ArrowRight,
   ShoppingBag,
   ShoppingCart,
-  Sparkles,
-  Zap,
-  Lock,
+  Cpu,
   Layers,
   Star,
   Truck,
   ShieldCheck,
   RefreshCw,
   Heart,
-  Eye
+  Eye,
+  SlidersHorizontal,
+  Headphones,
+  Laptop
 } from 'lucide-react';
 import QuickViewModal, { QuickViewProduct } from '../components/QuickViewModal';
 import { MOCK_PRODUCTS, MOCK_CATEGORIES } from '../data/mockProducts';
@@ -43,11 +44,11 @@ interface Product {
 }
 
 const categoryIcons: Record<string, React.ReactNode> = {
-  'Electronics': <Zap size={24} />,
-  'Clothing': <Layers size={24} />,
-  'Books': <Layers size={24} />,
-  'Gaming': <Sparkles size={24} />,
-  'Accessories': <Star size={24} />,
+  'Hardware': <Cpu size={20} />,
+  'Peripherals': <SlidersHorizontal size={20} />,
+  'Accessories': <Layers size={20} />,
+  'Audio': <Headphones size={20} />,
+  'Wearables': <Laptop size={20} />,
 };
 
 export default function HomePage() {
@@ -101,72 +102,76 @@ export default function HomePage() {
 
   return (
     <div className="fade-in">
-      {/* Hero Section */}
+      {/* Enterprise SaaS Hero Section */}
       <section className={styles.hero}>
-        {/* Decorative orbs */}
-        <div className={`orb ${styles.orb1}`} />
-        <div className={`orb ${styles.orb2}`} />
-        <div className={`orb ${styles.orb3}`} />
-
         <div className={styles.heroContent}>
           <div className={styles.badgeWrap}>
-            <span className="badge badge-secondary">
-              <Sparkles size={12} style={{ marginRight: '4px' }} />
-              New Collection Available
+            <span className="badge badge-primary">
+              Enterprise Hardware & Operations
             </span>
           </div>
           <h1 className={styles.title}>
-            Discover Premium
+            Precision Hardware for
             <br />
-            <span className="animated-gradient-text">Tech & Lifestyle</span>
+            Modern Engineering Teams
           </h1>
           <p className={styles.subtitle}>
-            Curated collection of high-performance gear and modern essentials.
-            Free delivery on all orders. Experience the future of shopping.
+            Enterprise-grade workstations, studio peripherals, and computing essentials.
+            Direct fulfillment, verified reviews, and dedicated corporate procurement.
           </p>
           <div className={styles.heroActions}>
             <Link href="/products" className="btn-primary">
-              Shop Now
-              <ArrowRight size={18} />
+              Browse Hardware Catalog
+              <ArrowRight size={16} />
             </Link>
             <Link href="/products" className="btn-secondary">
-              View Catalog
+              View Specifications
             </Link>
           </div>
 
-          {/* Stats */}
+          {/* Operational Metrics */}
           <div className={styles.statsRow}>
             <div className={styles.stat}>
               <span className={styles.statValue}>500+</span>
-              <span className={styles.statLabel}>Products</span>
+              <span className={styles.statLabel}>Active SKUs</span>
             </div>
             <div className={styles.statDivider} />
             <div className={styles.stat}>
-              <span className={styles.statValue}>10K+</span>
-              <span className={styles.statLabel}>Customers</span>
+              <span className={styles.statValue}>99.9%</span>
+              <span className={styles.statLabel}>Fulfillment Rate</span>
             </div>
             <div className={styles.statDivider} />
             <div className={styles.stat}>
-              <span className={styles.statValue}>4.9</span>
-              <span className={styles.statLabel}>Rating</span>
+              <span className={styles.statValue}>24h</span>
+              <span className={styles.statLabel}>Global Dispatch</span>
+            </div>
+            <div className={styles.statDivider} />
+            <div className={styles.stat}>
+              <span className={styles.statValue}>4.9 / 5</span>
+              <span className={styles.statLabel}>Customer Score</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Category Browsing */}
+      {/* Category Navigation */}
       {categories.length > 0 && (
         <section className={styles.categoriesSection}>
-          <h2 className="section-title text-center">Shop by Category</h2>
+          <div className={styles.sectionHeader}>
+            <div>
+              <h2 className="section-title" style={{ marginBottom: 4 }}>Hardware Categories</h2>
+              <p className={styles.sectionSubtitle}>Browse by functional tier and system department</p>
+            </div>
+          </div>
           <div className={styles.categoriesGrid}>
-            {categories.map((cat, i) => (
+            {categories.map((cat) => (
               <Link
                 key={cat.id}
                 href={`/products?category=${cat.id}`}
-                className={`${styles.categoryCard} glass-card fade-in-up stagger-${i + 1}`}
+                className={styles.categoryCard}
               >
                 <div className={styles.categoryIcon}>
-                  {categoryIcons[cat.name] || <ShoppingBag size={24} />}
+                  {categoryIcons[cat.name] || <ShoppingBag size={20} />}
                 </div>
                 <span className={styles.categoryName}>{cat.name}</span>
               </Link>
@@ -175,36 +180,36 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* Features / Trust Section */}
+      {/* Operational Value Pillars */}
       <section className={styles.featuresSection}>
         <div className={styles.featuresGrid}>
-          <div className={`glass-card ${styles.featureCard}`}>
+          <div className={styles.featureCard}>
             <div className={styles.featureIconWrap}>
-              <Truck size={28} />
+              <Truck size={20} />
             </div>
-            <h3 className={styles.featureTitle}>Free Delivery</h3>
-            <p className={styles.featureText}>Free shipping on all orders. No minimum purchase required.</p>
+            <h3 className={styles.featureTitle}>Priority Logistics</h3>
+            <p className={styles.featureText}>Expedited enterprise dispatch with real-time tracking and delivery guarantees.</p>
           </div>
-          <div className={`glass-card ${styles.featureCard}`}>
+          <div className={styles.featureCard}>
             <div className={styles.featureIconWrap}>
-              <ShieldCheck size={28} />
+              <ShieldCheck size={20} />
             </div>
-            <h3 className={styles.featureTitle}>Secure Payment</h3>
-            <p className={styles.featureText}>End-to-end encrypted transactions. Your data stays safe.</p>
+            <h3 className={styles.featureTitle}>Encrypted Billing</h3>
+            <p className={styles.featureText}>PCI-compliant corporate billing, corporate invoice support, and secure payments.</p>
           </div>
-          <div className={`glass-card ${styles.featureCard}`}>
+          <div className={styles.featureCard}>
             <div className={styles.featureIconWrap}>
-              <RefreshCw size={28} />
+              <RefreshCw size={20} />
             </div>
-            <h3 className={styles.featureTitle}>30-Day Returns</h3>
-            <p className={styles.featureText}>Not satisfied? Return any item within 30 days hassle-free.</p>
+            <h3 className={styles.featureTitle}>30-Day Evaluation</h3>
+            <p className={styles.featureText}>Full replacement and return coverage for enterprise deployments and team testing.</p>
           </div>
-          <div className={`glass-card ${styles.featureCard}`}>
+          <div className={styles.featureCard}>
             <div className={styles.featureIconWrap}>
-              <Lock size={28} />
+              <Cpu size={20} />
             </div>
-            <h3 className={styles.featureTitle}>Warranty</h3>
-            <p className={styles.featureText}>All products come with manufacturer warranty protection.</p>
+            <h3 className={styles.featureTitle}>OEM Warranty</h3>
+            <p className={styles.featureText}>All hardware is direct OEM certified with full warranty and enterprise RMA service.</p>
           </div>
         </div>
       </section>
@@ -213,52 +218,54 @@ export default function HomePage() {
       <section className={styles.featuredSection}>
         <div className={styles.sectionHeader}>
           <div>
-            <h2 className="section-title">Trending Now</h2>
-            <p className={styles.sectionSubtitle}>Our most popular picks this season</p>
+            <h2 className="section-title" style={{ marginBottom: 4 }}>Featured Hardware</h2>
+            <p className={styles.sectionSubtitle}>High-demand systems and accessories available for immediate shipment</p>
           </div>
           <Link href="/products" className={styles.viewAll}>
-            View All Products
-            <ArrowRight size={16} />
+            View Full Inventory
+            <ArrowRight size={14} />
           </Link>
         </div>
 
         {loading ? (
           <div className={styles.productsGrid}>
             {[1, 2, 3].map((i) => (
-              <div key={i} className={`glass-card ${styles.skeletonCard}`}>
-                <div className={styles.skeletonImage} />
-                <div style={{ padding: '16px' }}>
-                  <div className={styles.skeletonLine} style={{ width: '60%' }} />
-                  <div className={styles.skeletonLine} style={{ width: '80%', marginTop: '10px' }} />
-                  <div className={styles.skeletonLine} style={{ width: '40%', marginTop: '16px' }} />
+              <div key={i} className={styles.productCard}>
+                <div className={styles.imageContainer} style={{ background: 'var(--bg-surface-elevated)' }} />
+                <div style={{ padding: '14px' }}>
+                  <div style={{ height: 14, background: 'var(--border-subtle)', borderRadius: 4, width: '60%' }} />
+                  <div style={{ height: 14, background: 'var(--border-subtle)', borderRadius: 4, width: '80%', marginTop: '8px' }} />
+                  <div style={{ height: 14, background: 'var(--border-subtle)', borderRadius: 4, width: '40%', marginTop: '14px' }} />
                 </div>
               </div>
             ))}
           </div>
         ) : featuredProducts.length > 0 ? (
           <div className={styles.productsGrid}>
-            {featuredProducts.map((product, i) => {
+            {featuredProducts.map((product) => {
               const inWish = isInWishlist(product.id);
               const rating = product.averageRating || 5.0;
 
               return (
-                <div key={product.id} className={`glass-card ${styles.productCard} fade-in-up stagger-${i + 1}`}>
+                <div key={product.id} className={styles.productCard}>
                   <div className={styles.imageContainer}>
                     <div className={styles.cardTopActions}>
                       {product.stock <= 0 ? (
                         <span className={styles.outOfStockBadge}>Out of Stock</span>
                       ) : (
-                        <span />
+                        <span className="badge badge-secondary" style={{ fontSize: '0.6875rem' }}>
+                          In Stock ({product.stock})
+                        </span>
                       )}
                       <button
                         className={`${styles.cardWishlistBtn} ${inWish ? styles.cardWishlistBtnActive : ''}`}
                         onClick={() => toggleWishlist(product)}
-                        title={inWish ? 'Remove from wishlist' : 'Add to wishlist'}
+                        title={inWish ? 'Remove from wishlist' : 'Save item'}
                       >
                         <Heart
-                          size={18}
-                          fill={inWish ? '#ec4899' : 'none'}
-                          color={inWish ? '#ec4899' : 'currentColor'}
+                          size={14}
+                          fill={inWish ? '#ef4444' : 'none'}
+                          color={inWish ? '#ef4444' : 'currentColor'}
                         />
                       </button>
                     </div>
@@ -271,26 +278,26 @@ export default function HomePage() {
                     <button
                       className={styles.quickViewBtn}
                       onClick={() => setQuickViewProduct(product)}
-                      title="Quick View"
+                      title="Quick Specs"
                     >
-                      <Eye size={14} />
-                      Quick View
+                      <Eye size={12} />
+                      Quick Specs
                     </button>
                   </div>
 
                   <div className={styles.productInfo}>
                     <div className={styles.productCategoryRow}>
                       <span className={styles.productCategory}>
-                        {product.category ? product.category.name : 'Trending'}
+                        {product.category ? product.category.name : 'Hardware'}
                       </span>
                       <div className={styles.ratingBadge}>
-                        <Star size={12} fill="#fbbf24" color="#fbbf24" />
+                        <Star size={11} fill="#f59e0b" color="#f59e0b" />
                         <span>{rating.toFixed(1)}</span>
                         <span className={styles.reviewCount}>({product.reviewCount || 0})</span>
                       </div>
                     </div>
 
-                    <Link href={`/products/${product.id}`} className={styles.productNameLink}>
+                    <Link href={`/products/${product.id}`}>
                       <h3 className={styles.productName}>{product.name}</h3>
                     </Link>
 
@@ -302,13 +309,13 @@ export default function HomePage() {
                         <button
                           onClick={() => addToCart(product.id, 1)}
                           className="btn-primary"
-                          style={{ padding: '8px 14px', fontSize: '0.85rem' }}
+                          style={{ padding: '6px 12px', fontSize: '0.8125rem' }}
                         >
-                          <ShoppingCart size={14} />
-                          Add
+                          <ShoppingCart size={13} />
+                          Add to Order
                         </button>
                       ) : (
-                        <span className="badge badge-error">Sold Out</span>
+                        <span className="badge">Backorder</span>
                       )}
                     </div>
                   </div>
@@ -317,12 +324,14 @@ export default function HomePage() {
             })}
           </div>
         ) : (
-          <div className={`${styles.emptyState} glass-card`}>
-            <ShoppingBag size={48} className={styles.emptyIcon} />
-            <h3>No products found</h3>
-            <p>Database is empty. Head to the Admin Portal to seed categories and products!</p>
+          <div className={styles.emptyState}>
+            <ShoppingBag size={40} className={styles.emptyIcon} />
+            <h3 style={{ fontSize: '1.125rem', fontWeight: 600 }}>No products found</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginTop: 4 }}>
+              The catalog is currently being updated.
+            </p>
             <Link href="/admin" className="btn-primary" style={{ marginTop: '16px' }}>
-              Add Products
+              Manage Inventory
             </Link>
           </div>
         )}

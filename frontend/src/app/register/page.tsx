@@ -28,16 +28,27 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${apiUrl}/api/auth/register`, {
+      const endpoint = apiUrl ? `${apiUrl}/api/auth/register` : '/api/auth/register';
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password, address, role })
       });
 
-      const data = await response.json();
+      const rawText = await response.text();
+      let data: any = {};
+      try {
+        data = rawText ? JSON.parse(rawText) : {};
+      } catch {
+        throw new Error('Server returned an invalid response. Please verify the API status.');
+      }
 
       if (!response.ok) {
         throw new Error(data.message || 'Registration failed');
+      }
+
+      if (!data.token || !data.user) {
+        throw new Error('Registration failed: Missing session token.');
       }
 
       login(data.token, data.user);
@@ -51,27 +62,27 @@ export default function RegisterPage() {
 
   return (
     <div className={`${styles.authContainer} fade-in`}>
-      <div className={`${styles.authCard} glass-panel`}>
+      <div className={styles.authCard}>
         <div className={styles.header}>
           <div className={styles.iconWrap}>
-            <UserPlus size={24} className={styles.icon} />
+            <UserPlus size={20} className={styles.icon} />
           </div>
-          <h2 className="glow-text">Create Account</h2>
-          <p className={styles.subtitle}>Join Aether Shop and start browsing premium tech</p>
+          <h2 className={styles.title}>Create Account</h2>
+          <p className={styles.subtitle}>Join Ledger Ops procurement & hardware systems</p>
         </div>
 
-        {error && <div className={`${styles.alert} badge badge-error`}>{error}</div>}
+        {error && <div className={`${styles.alert} badge-error`}>{error}</div>}
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className="form-group">
             <label className="form-label" htmlFor="name">Full Name</label>
             <div className={styles.inputWrapper}>
-              <User size={18} className={styles.inputIcon} />
+              <User size={16} className={styles.inputIcon} />
               <input
                 id="name"
                 type="text"
                 className="form-input"
-                style={{ paddingLeft: '45px' }}
+                style={{ paddingLeft: '40px' }}
                 placeholder="John Doe"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -83,12 +94,12 @@ export default function RegisterPage() {
           <div className="form-group">
             <label className="form-label" htmlFor="email">Email Address</label>
             <div className={styles.inputWrapper}>
-              <Mail size={18} className={styles.inputIcon} />
+              <Mail size={16} className={styles.inputIcon} />
               <input
                 id="email"
                 type="email"
                 className="form-input"
-                style={{ paddingLeft: '45px' }}
+                style={{ paddingLeft: '40px' }}
                 placeholder="name@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -98,15 +109,15 @@ export default function RegisterPage() {
           </div>
 
           <div className="form-group">
-            <label className="form-label" htmlFor="address">Shipping Address</label>
+            <label className="form-label" htmlFor="address">Delivery / Billing Address</label>
             <div className={styles.inputWrapper}>
-              <MapPin size={18} className={styles.inputIcon} />
+              <MapPin size={16} className={styles.inputIcon} />
               <input
                 id="address"
                 type="text"
                 className="form-input"
-                style={{ paddingLeft: '45px' }}
-                placeholder="123 Street Name, City, Country"
+                style={{ paddingLeft: '40px' }}
+                placeholder="410 Market St, San Francisco, CA"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
               />
@@ -116,12 +127,12 @@ export default function RegisterPage() {
           <div className="form-group">
             <label className="form-label" htmlFor="password">Password (min 6 chars)</label>
             <div className={styles.inputWrapper}>
-              <Lock size={18} className={styles.inputIcon} />
+              <Lock size={16} className={styles.inputIcon} />
               <input
                 id="password"
                 type="password"
                 className="form-input"
-                style={{ paddingLeft: '45px' }}
+                style={{ paddingLeft: '40px' }}
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -130,21 +141,25 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          {/* Development Admin Override Option */}
-          <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '15px 0' }}>
+          <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '10px 0' }}>
             <input
               id="dev-admin"
               type="checkbox"
-              style={{ width: '18px', height: '18px', accentColor: 'var(--accent-primary)' }}
+              style={{ width: '16px', height: '16px', accentColor: 'var(--accent-primary)' }}
               checked={role === 'ADMIN'}
               onChange={(e) => setRole(e.target.checked ? 'ADMIN' : 'USER')}
             />
-            <label htmlFor="dev-admin" style={{ fontSize: '0.85rem', color: 'var(--accent-secondary)', cursor: 'pointer' }}>
-              Register as Admin (For testing/evaluation)
+            <label htmlFor="dev-admin" style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', cursor: 'pointer' }}>
+              Grant Administrator Privileges (For evaluation)
             </label>
           </div>
 
-          <button type="submit" className="btn-primary w-full" style={{ justifyContent: 'center', marginTop: '10px' }} disabled={loading}>
+          <button
+            type="submit"
+            className="btn-primary w-full"
+            style={{ justifyContent: 'center', marginTop: '6px' }}
+            disabled={loading}
+          >
             {loading ? 'Creating Account...' : 'Sign Up'}
           </button>
         </form>

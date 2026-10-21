@@ -86,8 +86,8 @@ export default function OrderDetailPage() {
     <div className={`${styles.container} fade-in`}>
       {/* Success banner */}
       <div className={`${styles.successHeader} glass-panel`}>
-        <CheckCircle2 size={48} className={styles.successIcon} />
-        <h1 className="glow-text">Order Confirmed!</h1>
+        <CheckCircle2 size={40} className={styles.successIcon} />
+        <h1 style={{ fontSize: '1.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>Order Confirmed!</h1>
         <p className={styles.orderIdText}>Order Reference ID: #{order.id}</p>
         <p className={styles.successSub}>Thank you for your purchase. We are preparing your order.</p>
       </div>

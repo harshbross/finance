@@ -1,0 +1,123 @@
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.headerArea {
+  margin-bottom: 28px;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.025em;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.ordersList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.orderCard {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.orderCard:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-sm);
+}
+
+.orderMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.orderId {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  font-feature-settings: 'tnum';
+}
+
+.orderDate {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.orderRight {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.orderPrice {
+  font-weight: 600;
+  font-size: 1.0625rem;
+  color: var(--text-primary);
+  font-feature-settings: 'tnum';
+}
+
+.emptyState {
+  padding: 64px 32px;
+  text-align: center;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.emptyIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.emptyTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.emptyText {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  max-width: 420px;
+  line-height: 1.5;
+  margin-bottom: 22px;
+}
+
+.loader {
+  padding: 60px;
+  text-align: center;
+  color: var(--text-muted);
+}

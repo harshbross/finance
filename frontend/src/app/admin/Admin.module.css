@@ -12,7 +12,9 @@
   gap: 30px;
   position: sticky;
   top: 100px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  border-radius: var(--border-radius-md);
 }
 
 .adminProfile {
@@ -23,7 +25,8 @@
 
 .adminProfile h3 {
   font-size: 1rem;
-  color: #fff;
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 .adminProfile p {
@@ -33,7 +36,6 @@
 
 .logoIcon {
   color: var(--accent-primary);
-  filter: drop-shadow(0 0 5px var(--accent-primary-glow));
 }
 
 .navMenu {
@@ -56,18 +58,19 @@
   text-align: left;
   font-weight: 500;
   font-size: 0.9rem;
-  transition: var(--transition-smooth);
+  transition: var(--transition-fast);
 }
 
 .navBtn:hover {
-  background: var(--bg-glass-card);
+  background: var(--bg-surface);
   color: var(--text-primary);
 }
 
 .navBtn.active {
-  background: rgba(168, 85, 247, 0.1);
-  border-color: rgba(168, 85, 247, 0.3);
-  color: #fff;
+  background: var(--bg-surface);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  font-weight: 600;
 }
 
 .mainContent {
@@ -77,7 +80,7 @@
 .tabTitle {
   font-size: 1.8rem;
   margin-bottom: 24px;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .tabHeader {
@@ -96,7 +99,10 @@
   padding: 12px 24px;
   border-radius: var(--border-radius-sm);
   z-index: 1000;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-md);
   font-weight: 600;
 }
 
@@ -107,26 +113,27 @@
 }
 
 .cardLabel {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
+  font-weight: 600;
 }
 
 .cardValue {
-  font-family: var(--font-display);
+  font-family: var(--font-mono, monospace);
   font-size: 1.8rem;
-  font-weight: 800;
-  color: #fff;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .statIconWrap {
   width: 44px;
   height: 44px;
   border-radius: var(--border-radius-sm);
-  background: rgba(168, 85, 247, 0.05);
-  border: 1px solid rgba(168, 85, 247, 0.2);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -138,13 +145,15 @@
 
 .divider {
   height: 1px;
-  background: var(--border-glass);
+  background: var(--border-subtle);
   margin: 16px 0;
 }
 
 .formCard, .tableCard {
   padding: 30px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  border-radius: var(--border-radius-md);
 }
 
 .formGrid {
@@ -165,22 +174,22 @@
   font-weight: 600;
   font-size: 0.85rem;
   text-transform: uppercase;
-  border-bottom: 1px solid var(--border-glass);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .table td {
   padding: 16px;
-  border-bottom: 1px solid var(--border-glass);
+  border-bottom: 1px solid var(--border-subtle);
   font-size: 0.95rem;
   color: var(--text-secondary);
 }
 
 .table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.01);
+  background: var(--bg-surface);
 }
 
 .tblName {
-  color: #fff;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
@@ -193,8 +202,8 @@
   width: 40px;
   height: 40px;
   border-radius: var(--border-radius-sm);
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-glass);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -208,8 +217,8 @@
 }
 
 .actionBtn {
-  background: var(--bg-glass-card);
-  border: 1px solid var(--border-glass);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   color: var(--text-secondary);
   padding: 8px;
   border-radius: var(--border-radius-sm);
@@ -217,17 +226,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all var(--transition-fast);
 }
 
 .actionBtn:hover {
-  color: #fff;
-  border-color: var(--text-secondary);
+  color: var(--text-primary);
+  border-color: var(--border-focus);
 }
 
 .actionBtnDanger:hover {
-  color: var(--error);
-  border-color: rgba(239, 68, 68, 0.3);
-  background: rgba(239, 68, 68, 0.05);
+  color: var(--accent-danger);
+  border-color: var(--accent-danger);
+  background: var(--bg-surface);
 }
 
 .accessDenied {
@@ -238,12 +248,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  border-radius: var(--border-radius-lg);
 }
 
 .deniedIcon {
-  color: var(--error);
+  color: var(--accent-danger);
   margin-bottom: 16px;
-  filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.4));
 }
 
 @media (max-width: 900px) {

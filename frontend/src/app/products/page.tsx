@@ -103,6 +103,7 @@ function ProductsContent() {
         if (data.products && data.products.length > 0) {
           setProducts(data.products);
           setTotalPages(data.totalPages || 1);
+          setLoading(false);
           return;
         }
       }
@@ -245,9 +246,9 @@ function ProductsContent() {
                         title={inWish ? 'Remove from wishlist' : 'Add to wishlist'}
                       >
                         <Heart
-                          size={18}
-                          fill={inWish ? '#ec4899' : 'none'}
-                          color={inWish ? '#ec4899' : 'currentColor'}
+                          size={16}
+                          fill={inWish ? '#be123c' : 'none'}
+                          color={inWish ? '#be123c' : 'currentColor'}
                         />
                       </button>
                     </div>
@@ -274,9 +275,9 @@ function ProductsContent() {
 
                   <div className={styles.productInfo}>
                     <div className={styles.productCategoryRow}>
-                      <span className={styles.productCategory}>{product.category.name}</span>
+                      <span className={styles.productCategory}>{product.category?.name || 'Hardware'}</span>
                       <div className={styles.ratingBadge}>
-                        <Star size={12} fill="#fbbf24" color="#fbbf24" />
+                        <Star size={12} fill="#d97706" color="#d97706" />
                         <span>{rating.toFixed(1)}</span>
                         <span className={styles.reviewCount}>({product.reviewCount || 0})</span>
                       </div>

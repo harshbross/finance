@@ -17,11 +17,9 @@
   gap: 12px;
   padding: 14px 16px;
   border-radius: var(--border-radius-sm);
-  background: rgba(18, 16, 38, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-glass);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-lg);
   pointer-events: auto;
   position: relative;
   overflow: hidden;

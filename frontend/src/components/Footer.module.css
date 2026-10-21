@@ -1,38 +1,36 @@
 .footer {
-  border-top: 1px solid var(--border-glass);
-  margin-top: 40px;
-  background: rgba(10, 9, 21, 0.6);
-  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 56px;
+  background: var(--bg-surface);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 48px 24px 24px;
+  padding: 44px 24px 28px;
 }
 
 .grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 40px;
+  gap: 36px;
 }
 
 .brandCol {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .logo {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.2rem;
-  letter-spacing: 0.05em;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
   color: var(--text-primary);
-  text-transform: uppercase;
 }
 
 .logoIcon {
@@ -40,10 +38,26 @@
 }
 
 .brandText {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.7;
-  max-width: 280px;
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  max-width: 300px;
+}
+
+.statusIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-primary);
 }
 
 .linkCol {
@@ -53,19 +67,18 @@
 }
 
 .colTitle {
-  font-family: var(--font-display);
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.8125rem;
   color: var(--text-primary);
-  margin-bottom: 4px;
+  margin-bottom: 2px;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
 }
 
 .link {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  transition: color 0.2s ease;
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  transition: color var(--transition-fast);
 }
 
 .link:hover {
@@ -73,13 +86,13 @@
 }
 
 .infoText {
-  color: var(--text-muted);
-  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
 }
 
 .divider {
   height: 1px;
-  background: var(--border-glass);
+  background: var(--border-subtle);
   margin: 32px 0 20px;
 }
 
@@ -91,29 +104,29 @@
 
 .copyright {
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 
 .bottomLinks {
   display: flex;
-  gap: 20px;
+  gap: 18px;
 }
 
 .bottomLink {
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition: color var(--transition-fast);
 }
 
 .bottomLink:hover {
-  color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr 1fr;
-    gap: 30px;
+    gap: 28px;
   }
 
   .brandCol {
@@ -124,7 +137,7 @@
 @media (max-width: 480px) {
   .grid {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 20px;
   }
 
   .bottom {

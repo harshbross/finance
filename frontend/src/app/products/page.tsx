@@ -21,7 +21,7 @@ import {
 import { ProductGridSkeleton } from '../../components/Skeleton';
 import QuickViewModal, { QuickViewProduct } from '../../components/QuickViewModal';
 import { MOCK_PRODUCTS, MOCK_CATEGORIES } from '../../data/mockProducts';
-import { formatPrice } from '../../utils/format';
+import { formatPrice, handleImageError } from '../../utils/format';
 import styles from './Products.module.css';
 
 interface Category {
@@ -259,6 +259,7 @@ function ProductsContent() {
                         src={product.imageUrl}
                         alt={product.name}
                         className={styles.productImage}
+                        onError={handleImageError}
                       />
                     </Link>
 

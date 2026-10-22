@@ -25,7 +25,7 @@ import {
 } from 'lucide-react';
 import QuickViewModal, { QuickViewProduct } from '../components/QuickViewModal';
 import { MOCK_PRODUCTS, MOCK_CATEGORIES } from '../data/mockProducts';
-import { formatPrice } from '../utils/format';
+import { formatPrice, handleImageError } from '../utils/format';
 import styles from './Home.module.css';
 
 interface Category {
@@ -276,7 +276,12 @@ export default function HomePage() {
 
                     <Link href={`/products/${product.id}`} style={{ display: 'contents' }}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={product.imageUrl} alt={product.name} className={styles.productImage} />
+                      <img
+                        src={product.imageUrl}
+                        alt={product.name}
+                        className={styles.productImage}
+                        onError={handleImageError}
+                      />
                     </Link>
 
                     <button

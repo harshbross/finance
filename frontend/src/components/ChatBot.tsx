@@ -12,7 +12,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { MOCK_PRODUCTS } from '../data/mockProducts';
-import { formatPrice } from '../utils/format';
+import { formatPrice, handleImageError } from '../utils/format';
 import styles from './ChatBot.module.css';
 
 interface Message {
@@ -301,6 +301,7 @@ export default function ChatBot() {
                             src={product.imageUrl}
                             alt={product.name}
                             className={styles.productImg}
+                            onError={handleImageError}
                           />
                           <div className={styles.productInfo}>
                             <div className={styles.productName}>{product.name}</div>

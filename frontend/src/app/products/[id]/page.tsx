@@ -21,7 +21,7 @@ import { useWishlist } from '../../../context/WishlistContext';
 import { useToast } from '../../../context/ToastContext';
 import { Skeleton } from '../../../components/Skeleton';
 import { MOCK_PRODUCTS } from '../../../data/mockProducts';
-import { formatPrice } from '../../../utils/format';
+import { formatPrice, handleImageError } from '../../../utils/format';
 import styles from './ProductDetail.module.css';
 
 interface Category {
@@ -275,7 +275,12 @@ export default function ProductDetailPage() {
         <div className={styles.imageColumn}>
           <div className={styles.imageContainer}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={product.imageUrl} alt={product.name} className={styles.productImage} />
+            <img
+              src={product.imageUrl}
+              alt={product.name}
+              className={styles.productImage}
+              onError={handleImageError}
+            />
           </div>
         </div>
 

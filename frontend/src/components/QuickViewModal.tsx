@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { X, ShoppingCart, Heart, Star, ExternalLink, Truck, ShieldCheck } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
-import { formatPrice } from '../utils/format';
+import { formatPrice, handleImageError } from '../utils/format';
 import styles from './QuickViewModal.module.css';
 
 export interface QuickViewProduct {
@@ -75,7 +75,12 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({ product, onClose
           {/* Product Image */}
           <div className={styles.imageContainer}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={product.imageUrl} alt={product.name} className={styles.productImage} />
+            <img
+              src={product.imageUrl}
+              alt={product.name}
+              className={styles.productImage}
+              onError={handleImageError}
+            />
             {product.stock <= 0 && <span className={styles.outOfStockBadge}>Out of Stock</span>}
           </div>
 

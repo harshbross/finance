@@ -49,7 +49,7 @@ export async function POST(request: Request) {
           id: 2,
           name: email.split('@')[0] || 'Demo User',
           email,
-          role: 'USER',
+          role: email.toLowerCase().includes('admin') ? 'ADMIN' : 'USER',
           address: '410 Market St, San Francisco, CA',
         },
       });

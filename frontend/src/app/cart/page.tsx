@@ -1,19 +1,50 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { useWishlist } from '../../context/WishlistContext';
-import { ShoppingCart, Trash2, ArrowRight, ShoppingBag, Plus, Minus, Heart } from 'lucide-react';
+import { ShoppingCart, Trash2, ArrowRight, ShoppingBag, Plus, Minus, Heart, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { CartItemSkeleton } from '../../components/Skeleton';
-import { formatPrice } from '../../utils/format';
+import { formatPrice, handleImageError } from '../../utils/format';
+import { CouponSection } from '../../components/CouponSection';
+import { Coupon, calculateDiscount } from '../../data/coupons';
 import styles from './Cart.module.css';
 
 export default function CartPage() {
   const { token } = useAuth();
   const { cartItems, loadingCart, updateQuantity, removeFromCart, subtotal, itemCount } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
+  const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('active_coupon');
+      if (saved) {
+        setAppliedCoupon(JSON.parse(saved));
+      }
+    } catch (e) {
+      // Ignore
+    }
+  }, []);
+
+  const handleApplyCoupon = (coupon: Coupon) => {
+    setAppliedCoupon(coupon);
+    try {
+      localStorage.setItem('active_coupon', JSON.stringify(coupon));
+    } catch (e) {}
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    try {
+      localStorage.removeItem('active_coupon');
+    } catch (e) {}
+  };
+
+  const discountAmount = appliedCoupon ? calculateDiscount(appliedCoupon, subtotal) : 0;
+  const finalTotal = Math.max(0, subtotal - discountAmount);
 
   const handleSaveForLater = async (item: any) => {
     if (!isInWishlist(item.product.id)) {
@@ -47,7 +78,12 @@ export default function CartPage() {
               <div key={item.id} className={`${styles.cartItem} glass-card`}>
                 <div className={styles.itemImageContainer}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={item.product.imageUrl} alt={item.product.name} className={styles.itemImage} />
+                  <img
+                    src={item.product.imageUrl}
+                    alt={item.product.name}
+                    className={styles.itemImage}
+                    onError={handleImageError}
+                  />
                 </div>
 
                 <div className={styles.itemInfo}>
@@ -106,20 +142,35 @@ export default function CartPage() {
             <div className={styles.divider}></div>
             
             <div className={styles.summaryRow}>
-              <span>Items ({itemCount})</span>
+              <span>Subtotal ({itemCount} {itemCount === 1 ? 'item' : 'items'})</span>
               <span>{formatPrice(subtotal)}</span>
             </div>
+
+            {appliedCoupon && discountAmount > 0 && (
+              <div className={styles.discountRow}>
+                <span>Discount ({appliedCoupon.code})</span>
+                <span>-{formatPrice(discountAmount)}</span>
+              </div>
+            )}
             
             <div className={styles.summaryRow}>
               <span>Shipping</span>
-              <span className="badge badge-success" style={{ textTransform: 'none' }}>Free</span>
+              <span className="badge badge-success" style={{ textTransform: 'none' }}>Free Express</span>
             </div>
+
+            {/* Coupons Section */}
+            <CouponSection
+              subtotal={subtotal}
+              appliedCoupon={appliedCoupon}
+              onApplyCoupon={handleApplyCoupon}
+              onRemoveCoupon={handleRemoveCoupon}
+            />
             
             <div className={styles.divider}></div>
             
             <div className={styles.totalRow}>
               <span>Total Amount</span>
-              <span className={styles.totalValue}>{formatPrice(subtotal)}</span>
+              <span className={styles.totalValue}>{formatPrice(finalTotal)}</span>
             </div>
 
             <Link href="/checkout" className="btn-primary w-full" style={{ justifyContent: 'center', marginTop: '20px' }}>

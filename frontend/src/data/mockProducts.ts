@@ -1,8 +1,12 @@
 export interface MockReview {
   id: number;
   rating: number;
+  title?: string;
   comment: string;
   createdAt: string;
+  verified?: boolean;
+  helpfulCount?: number;
+  photos?: string[];
   user: {
     id: number;
     name: string;
@@ -52,15 +56,22 @@ export const MOCK_PRODUCTS: MockProduct[] = [
       {
         id: 101,
         rating: 5,
+        title: 'Phenomenal build quality and thermal performance',
         comment: 'Phenomenal build quality! The thermal design keeps it silent under heavy compilation workloads.',
         createdAt: '2026-08-15T10:30:00Z',
+        verified: true,
+        helpfulCount: 14,
+        photos: ['https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&q=80&w=400'],
         user: { id: 11, name: 'Alex Rivera' }
       },
       {
         id: 102,
         rating: 5,
+        title: 'Outstanding display and day-long battery',
         comment: 'Best display I have ever seen on a creator laptop. Battery easily lasts all day.',
         createdAt: '2026-08-20T14:15:00Z',
+        verified: true,
+        helpfulCount: 9,
         user: { id: 12, name: 'Elena Rostova' }
       }
     ]
@@ -80,15 +91,22 @@ export const MOCK_PRODUCTS: MockProduct[] = [
       {
         id: 201,
         rating: 5,
+        title: 'Butter smooth linear switches!',
         comment: 'The switch feel is buttery smooth out of the box. Zero spring ping.',
         createdAt: '2026-08-18T09:20:00Z',
+        verified: true,
+        helpfulCount: 21,
+        photos: ['https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&q=80&w=400'],
         user: { id: 13, name: 'Marcus Chen' }
       },
       {
         id: 202,
         rating: 4,
+        title: 'Stunning desk aesthetic',
         comment: 'Great aesthetics and heavy weight on desk. Software config took a moment to setup.',
         createdAt: '2026-08-25T16:45:00Z',
+        verified: true,
+        helpfulCount: 6,
         user: { id: 14, name: 'Sarah Jenkins' }
       }
     ]

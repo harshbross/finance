@@ -27,7 +27,7 @@
 }
 
 .formColumn {
-  padding: 40px;
+  padding: 36px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
@@ -39,7 +39,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 16px;
 }
 
 .alert {
@@ -54,46 +54,269 @@
 .section {
   display: flex;
   flex-direction: column;
+  gap: 14px;
 }
 
 .sectionHeader {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   color: #fff;
+}
+
+.sectionHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .sectionIcon {
   color: var(--accent-primary);
 }
 
+/* Saved Address Card */
+.savedAddressCard {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--accent-primary);
+  border-radius: var(--border-radius-sm);
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  background: rgba(99, 102, 241, 0.05);
+}
+
+.savedAddressInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.savedAddressHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recipientName {
+  font-weight: 700;
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.addressTypeBadge {
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.addressLine {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.addressPhone {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.editAddressBtn {
+  background: transparent;
+  border: 1px solid var(--border-glass);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  padding: 6px 12px;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  white-space: nowrap;
+}
+
+.editAddressBtn:hover {
+  color: var(--text-primary);
+  border-color: var(--accent-primary);
+}
+
+/* Structured Address Form Grid */
+.addressFormGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.formRow {
+  display: flex;
+  gap: 14px;
+}
+
+.formCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.phoneInputGroup {
+  display: flex;
+  align-items: center;
+}
+
+.phonePrefix {
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-glass);
+  border-right: none;
+  border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.phoneInput {
+  border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0 !important;
+}
+
+.typeSelector {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.typePill {
+  flex: 1;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: var(--transition-smooth);
+}
+
+.typePill:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+}
+
+.typePillActive {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: var(--accent-primary);
+  color: #fff;
+}
+
+/* Payment Tabs */
+.paymentTabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.paymentTab {
+  padding: 10px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition-smooth);
+}
+
+.paymentTab:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+}
+
+.paymentTabActive {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: var(--accent-primary);
+  color: #fff;
+}
+
 .mockAlert {
   background: rgba(245, 158, 11, 0.1);
   color: var(--warning);
   border: 1px dashed rgba(245, 158, 11, 0.3);
-  padding: 12px;
+  padding: 10px 12px;
   border-radius: var(--border-radius-sm);
-  font-size: 0.85rem;
-  margin-top: 10px;
-  line-height: 1.5;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.upiSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed var(--border-glass);
+  border-radius: var(--border-radius-sm);
+  gap: 12px;
+}
+
+.upiQrBox {
+  width: 140px;
+  height: 140px;
+  background: #fff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+
+.upiAppsRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.upiAppBadge {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  color: var(--text-secondary);
 }
 
 .cardRow {
   display: flex;
-  gap: 16px;
+  gap: 14px;
 }
 
 .divider {
   height: 1px;
   background: var(--border-glass);
-  margin: 24px 0;
+  margin: 20px 0;
 }
 
 .itemsList {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  max-height: 250px;
+  max-height: 220px;
   overflow-y: auto;
   padding-right: 8px;
 }
@@ -102,17 +325,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
 }
 
 .itemMeta {
   display: flex;
   flex-direction: column;
+  max-width: 70%;
 }
 
 .itemName {
   color: #fff;
   font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .itemQuantity {
@@ -122,6 +349,7 @@
 
 .itemTotal {
   color: var(--text-secondary);
+  font-weight: 600;
 }
 
 .summaryRow {
@@ -129,6 +357,16 @@
   justify-content: space-between;
   color: var(--text-secondary);
   font-size: 0.92rem;
+  margin-bottom: 12px;
+}
+
+.discountRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #10b981;
+  font-size: 0.92rem;
+  font-weight: 600;
   margin-bottom: 12px;
 }
 
@@ -172,5 +410,9 @@
 @media (max-width: 900px) {
   .checkoutLayout {
     grid-template-columns: 1fr;
+  }
+  .formRow {
+    flex-direction: column;
+    gap: 12px;
   }
 }

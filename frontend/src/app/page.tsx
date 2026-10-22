@@ -19,7 +19,9 @@ import {
   Eye,
   SlidersHorizontal,
   Headphones,
-  Laptop
+  Laptop,
+  Armchair,
+  Activity
 } from 'lucide-react';
 import QuickViewModal, { QuickViewProduct } from '../components/QuickViewModal';
 import { MOCK_PRODUCTS, MOCK_CATEGORIES } from '../data/mockProducts';
@@ -49,6 +51,8 @@ const categoryIcons: Record<string, React.ReactNode> = {
   'Accessories': <Layers size={20} />,
   'Audio': <Headphones size={20} />,
   'Wearables': <Laptop size={20} />,
+  'Furniture': <Armchair size={20} />,
+  'Sports & Fitness': <Activity size={20} />,
 };
 
 export default function HomePage() {
@@ -64,7 +68,7 @@ export default function HomePage() {
     async function fetchData() {
       try {
         const [prodRes, catRes] = await Promise.all([
-          fetch(`${apiUrl}/api/products?limit=6`),
+          fetch(`${apiUrl}/api/products?limit=8`),
           fetch(`${apiUrl}/api/categories`),
         ]);
 
@@ -73,10 +77,10 @@ export default function HomePage() {
           if (prodData.products && prodData.products.length > 0) {
             setFeaturedProducts(prodData.products);
           } else {
-            setFeaturedProducts(MOCK_PRODUCTS.slice(0, 6));
+            setFeaturedProducts(MOCK_PRODUCTS.slice(0, 8));
           }
         } else {
-          setFeaturedProducts(MOCK_PRODUCTS.slice(0, 6));
+          setFeaturedProducts(MOCK_PRODUCTS.slice(0, 8));
         }
 
         if (catRes.ok) {
@@ -91,7 +95,7 @@ export default function HomePage() {
         }
       } catch (err) {
         console.error('Failed to fetch homepage data, using curated catalog', err);
-        setFeaturedProducts(MOCK_PRODUCTS.slice(0, 6));
+        setFeaturedProducts(MOCK_PRODUCTS.slice(0, 8));
         setCategories(MOCK_CATEGORIES);
       } finally {
         setLoading(false);

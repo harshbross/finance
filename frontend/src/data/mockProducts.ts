@@ -31,7 +31,9 @@ export const MOCK_CATEGORIES = [
   { id: 2, name: 'Peripherals' },
   { id: 3, name: 'Accessories' },
   { id: 4, name: 'Audio' },
-  { id: 5, name: 'Wearables' }
+  { id: 5, name: 'Wearables' },
+  { id: 6, name: 'Furniture' },
+  { id: 7, name: 'Sports & Fitness' }
 ];
 
 export const MOCK_PRODUCTS: MockProduct[] = [
@@ -214,6 +216,132 @@ export const MOCK_PRODUCTS: MockProduct[] = [
         comment: 'The clarity is astonishing. Working in a 3-monitor virtual workspace is a game changer.',
         createdAt: '2026-09-04T19:40:00Z',
         user: { id: 20, name: 'Victor Vance' }
+      }
+    ]
+  },
+  {
+    id: 9,
+    name: 'Nordic Solid Oak Minimalist Study Table',
+    description: 'Crafted from sustainable European white oak with seamless cable management conduits, beveled anti-scratch edges, and heavy-duty matte black steel architectural hairpin legs.',
+    price: 16999,
+    stock: 14,
+    imageUrl: 'https://images.unsplash.com/photo-1533090161767-e6ffed986b88?auto=format&fit=crop&q=80&w=800',
+    categoryId: 6,
+    category: { id: 6, name: 'Furniture' },
+    averageRating: 4.8,
+    reviewCount: 19,
+    reviews: [
+      {
+        id: 901,
+        rating: 5,
+        comment: 'Stunning solid oak finish. Assembled in under 15 minutes and holds my dual monitor setup effortlessly.',
+        createdAt: '2026-09-10T11:20:00Z',
+        user: { id: 21, name: 'Rohan Mehra' }
+      },
+      {
+        id: 902,
+        rating: 4,
+        comment: 'Very sturdy with no wobble. The wood grain has a gorgeous satin texture.',
+        createdAt: '2026-09-15T15:30:00Z',
+        user: { id: 22, name: 'Priya Sharma' }
+      }
+    ]
+  },
+  {
+    id: 10,
+    name: 'Scandinavian Luxury 3-Seater Velvet Sofa',
+    description: 'High-resilience pocket spring cushioning upholstered in stain-resistant performance velvet. Kiln-dried solid beechwood frame with brass-accented tapered legs for ultimate living room comfort.',
+    price: 38499,
+    stock: 7,
+    imageUrl: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=800',
+    categoryId: 6,
+    category: { id: 6, name: 'Furniture' },
+    averageRating: 4.9,
+    reviewCount: 27,
+    reviews: [
+      {
+        id: 1001,
+        rating: 5,
+        comment: 'The emerald velvet is so soft yet easy to maintain. Cushioning gives firm yet plush support.',
+        createdAt: '2026-09-12T14:40:00Z',
+        user: { id: 23, name: 'Aarav Gupta' }
+      },
+      {
+        id: 1002,
+        rating: 5,
+        comment: 'Delivered in mint condition. The deep seat depth makes it perfect for lounging or hosting.',
+        createdAt: '2026-09-18T18:10:00Z',
+        user: { id: 24, name: 'Ananya Verma' }
+      }
+    ]
+  },
+  {
+    id: 11,
+    name: 'Voltric Pro Carbon Fiber Badminton Racket',
+    description: 'Aerodynamic Nanocell Neo graphite frame engineered for high-velocity smashes and rapid net defense. Isometric head shape expands sweet spot by 32%. Pre-strung at 26 lbs competition tension.',
+    price: 3899,
+    stock: 32,
+    imageUrl: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&q=80&w=800',
+    categoryId: 7,
+    category: { id: 7, name: 'Sports & Fitness' },
+    averageRating: 4.9,
+    reviewCount: 35,
+    reviews: [
+      {
+        id: 1101,
+        rating: 5,
+        comment: 'Unbelievable smash power! The balance point is head-heavy, giving intense kinetic whip on clears and drops.',
+        createdAt: '2026-09-14T08:30:00Z',
+        user: { id: 25, name: 'Kabir Singh' }
+      },
+      {
+        id: 1102,
+        rating: 5,
+        comment: 'Extremely lightweight yet rigid frame. Excellent feel and control around the net.',
+        createdAt: '2026-09-20T17:15:00Z',
+        user: { id: 26, name: 'Deepak Nair' }
+      }
+    ]
+  },
+  {
+    id: 12,
+    name: 'ErgoCurve Breathable Mesh Executive Chair',
+    description: 'Ergonomic high-back task chair featuring self-adjusting lumbar support, 4D multi-directional armrests, 135-degree synchro-tilt lock, and heavy-duty alloy wheelbase with silent nylon casters.',
+    price: 12499,
+    stock: 18,
+    imageUrl: 'https://images.unsplash.com/photo-1580481077195-c3a821a58875?auto=format&fit=crop&q=80&w=800',
+    categoryId: 6,
+    category: { id: 6, name: 'Furniture' },
+    averageRating: 4.7,
+    reviewCount: 16,
+    reviews: [
+      {
+        id: 1201,
+        rating: 5,
+        comment: 'Saved my lower back during 10-hour coding marathons. Highly adjustable and stays cool.',
+        createdAt: '2026-09-16T10:00:00Z',
+        user: { id: 27, name: 'Siddharth Roy' }
+      }
+    ]
+  },
+  {
+    id: 13,
+    name: 'Aerospeed Pro Feather Shuttlecocks (Pack of 12)',
+    description: 'Tournament grade select goose feathers treated for maximum endurance. Two-piece natural solid cork core provides pristine flight trajectory, repeatable speed rating, and crack resistance.',
+    price: 1299,
+    stock: 48,
+    imageUrl: 'https://images.unsplash.com/photo-1613918108466-292b78a8ef95?auto=format&fit=crop&q=80&w=800',
+    categoryId: 7,
+    category: { id: 7, name: 'Sports & Fitness' },
+    averageRating: 4.8,
+    reviewCount: 22,
+    reviews: [
+      {
+        id: 1301,
+        rating: 5,
+        comment: 'Longest lasting shuttlecocks we have used at our local club. Feathers don’t fray after a single set.',
+        createdAt: '2026-09-22T19:00:00Z',
+        user: { id: 28, name: 'Aditya Rao' }
       }
     ]
   }

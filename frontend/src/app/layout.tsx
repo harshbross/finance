@@ -8,6 +8,7 @@ import { ThemeProvider } from "../context/ThemeContext";
 import NavBar from "../components/NavBar";
 import ToastContainer from "../components/Toast";
 import Footer from "../components/Footer";
+import ChatBot from "../components/ChatBot";
 
 export const metadata: Metadata = {
   title: "Ledger Ops — Enterprise Hardware & Systems",
@@ -34,6 +35,7 @@ export default function RootLayout({
                     </main>
                     <Footer />
                   </div>
+                  <ChatBot />
                   <ToastContainer />
                 </WishlistProvider>
               </CartProvider>
